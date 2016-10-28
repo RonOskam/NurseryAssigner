@@ -1,0 +1,376 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NurseryAssignerModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\oaisd_app\NurseryAssigner\Data\NurseryAssigner.sqlite" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdditionalDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="AMPM" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="2147483647" />
+        </EntityType>
+        <EntityType Name="AgeGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AssignmentCount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AMPM" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="AgeGroupID" Type="integer" Nullable="false" />
+          <Property Name="Amount" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Attendant">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="AgeGroupID" Type="integer" Nullable="false" />
+          <Property Name="DoesAM" Type="bit" Nullable="false" />
+          <Property Name="DoesPM" Type="bit" Nullable="false" />
+          <Property Name="GradYear" Type="integer" />
+          <Property Name="ExclusionStart" Type="datetime" />
+          <Property Name="ExclusionEnd" Type="datetime" />
+          <Property Name="IsInactive" Type="bit" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="2147483647" />
+        </EntityType>
+        <EntityType Name="AttendantSchedule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ScheduledDayID" Type="integer" Nullable="false" />
+          <Property Name="AttendantID" Type="integer" Nullable="false" />
+          <Property Name="Position" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduledDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="AMPM" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AssignmentCount_0_0">
+          <End Role="AgeGroup" Type="Self.AgeGroup" Multiplicity="1" />
+          <End Role="AssignmentCount" Type="Self.AssignmentCount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AgeGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AssignmentCount">
+              <PropertyRef Name="AgeGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Attendant_0_0">
+          <End Role="AgeGroup" Type="Self.AgeGroup" Multiplicity="1" />
+          <End Role="Attendant" Type="Self.Attendant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AgeGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attendant">
+              <PropertyRef Name="AgeGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendantSchedule_0_0">
+          <End Role="Attendant" Type="Self.Attendant" Multiplicity="1" />
+          <End Role="AttendantSchedule" Type="Self.AttendantSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attendant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttendantSchedule">
+              <PropertyRef Name="AttendantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendantSchedule_1_0">
+          <End Role="ScheduledDay" Type="Self.ScheduledDay" Multiplicity="1" />
+          <End Role="AttendantSchedule" Type="Self.AttendantSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduledDay">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttendantSchedule">
+              <PropertyRef Name="ScheduledDayID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NurseryAssignerModelStoreContainer">
+          <EntitySet Name="AdditionalDay" EntityType="Self.AdditionalDay" store:Type="Tables" />
+          <EntitySet Name="AgeGroup" EntityType="Self.AgeGroup" store:Type="Tables" />
+          <EntitySet Name="AssignmentCount" EntityType="Self.AssignmentCount" store:Type="Tables" />
+          <EntitySet Name="Attendant" EntityType="Self.Attendant" store:Type="Tables" />
+          <EntitySet Name="AttendantSchedule" EntityType="Self.AttendantSchedule" store:Type="Tables" />
+          <EntitySet Name="ScheduledDay" EntityType="Self.ScheduledDay" store:Type="Tables" />
+          <AssociationSet Name="FK_AssignmentCount_0_0" Association="Self.FK_AssignmentCount_0_0">
+            <End Role="AgeGroup" EntitySet="AgeGroup" />
+            <End Role="AssignmentCount" EntitySet="AssignmentCount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Attendant_0_0" Association="Self.FK_Attendant_0_0">
+            <End Role="AgeGroup" EntitySet="AgeGroup" />
+            <End Role="Attendant" EntitySet="Attendant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendantSchedule_0_0" Association="Self.FK_AttendantSchedule_0_0">
+            <End Role="Attendant" EntitySet="Attendant" />
+            <End Role="AttendantSchedule" EntitySet="AttendantSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendantSchedule_1_0" Association="Self.FK_AttendantSchedule_1_0">
+            <End Role="ScheduledDay" EntitySet="ScheduledDay" />
+            <End Role="AttendantSchedule" EntitySet="AttendantSchedule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NurseryAssignerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AgeGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Attendants" Relationship="Self.FK_Attendant_0_0" FromRole="AgeGroup" ToRole="Attendant" />
+          <NavigationProperty Name="AssignmentCounts" Relationship="NurseryAssignerModel.FK_AssignmentCount_0_0" FromRole="AgeGroup" ToRole="AssignmentCount" />
+        </EntityType>
+        <EntityType Name="Attendant">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AgeGroupID" Type="Int64" Nullable="false" />
+          <Property Name="DoesAM" Type="Boolean" Nullable="false" />
+          <Property Name="DoesPM" Type="Boolean" Nullable="false" />
+          <Property Name="GradYear" Type="Int64" />
+          <Property Name="ExclusionStart" Type="DateTime" />
+          <Property Name="ExclusionEnd" Type="DateTime" />
+          <Property Name="IsInactive" Type="Boolean" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AgeGroup" Relationship="Self.FK_Attendant_0_0" FromRole="Attendant" ToRole="AgeGroup" />
+          <NavigationProperty Name="AttendantSchedules" Relationship="NurseryAssignerModel.FK_AttendantSchedule_0_0" FromRole="Attendant" ToRole="AttendantSchedule" />
+        </EntityType>
+        <Association Name="FK_Attendant_0_0">
+          <End Role="AgeGroup" Type="Self.AgeGroup" Multiplicity="1" />
+          <End Role="Attendant" Type="Self.Attendant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AgeGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attendant">
+              <PropertyRef Name="AgeGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NurseryAssignerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AgeGroups" EntityType="Self.AgeGroup" />
+          <EntitySet Name="Attendants" EntityType="Self.Attendant" />
+          <AssociationSet Name="FK_Attendant_0_0" Association="Self.FK_Attendant_0_0">
+            <End Role="AgeGroup" EntitySet="AgeGroups" />
+            <End Role="Attendant" EntitySet="Attendants" />
+          </AssociationSet>
+          <EntitySet Name="AdditionalDays" EntityType="NurseryAssignerModel.AdditionalDay" />
+          <EntitySet Name="AssignmentCounts" EntityType="NurseryAssignerModel.AssignmentCount" />
+          <EntitySet Name="AttendantSchedules" EntityType="NurseryAssignerModel.AttendantSchedule" />
+          <EntitySet Name="ScheduledDays" EntityType="NurseryAssignerModel.ScheduledDay" />
+          <AssociationSet Name="FK_AssignmentCount_0_0" Association="NurseryAssignerModel.FK_AssignmentCount_0_0">
+            <End Role="AgeGroup" EntitySet="AgeGroups" />
+            <End Role="AssignmentCount" EntitySet="AssignmentCounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendantSchedule_0_0" Association="NurseryAssignerModel.FK_AttendantSchedule_0_0">
+            <End Role="Attendant" EntitySet="Attendants" />
+            <End Role="AttendantSchedule" EntitySet="AttendantSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendantSchedule_1_0" Association="NurseryAssignerModel.FK_AttendantSchedule_1_0">
+            <End Role="ScheduledDay" EntitySet="ScheduledDays" />
+            <End Role="AttendantSchedule" EntitySet="AttendantSchedules" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AdditionalDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="AMPM" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AssignmentCount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AMPM" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="AgeGroupID" Type="Int64" Nullable="false" />
+          <Property Name="Amount" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="AgeGroup" Relationship="NurseryAssignerModel.FK_AssignmentCount_0_0" FromRole="AssignmentCount" ToRole="AgeGroup" />
+        </EntityType>
+        <EntityType Name="AttendantSchedule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ScheduledDayID" Type="Int64" Nullable="false" />
+          <Property Name="AttendantID" Type="Int64" Nullable="false" />
+          <Property Name="Position" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Attendant" Relationship="NurseryAssignerModel.FK_AttendantSchedule_0_0" FromRole="AttendantSchedule" ToRole="Attendant" />
+          <NavigationProperty Name="ScheduledDay" Relationship="NurseryAssignerModel.FK_AttendantSchedule_1_0" FromRole="AttendantSchedule" ToRole="ScheduledDay" />
+        </EntityType>
+        <EntityType Name="ScheduledDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="AMPM" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AttendantSchedules" Relationship="NurseryAssignerModel.FK_AttendantSchedule_1_0" FromRole="ScheduledDay" ToRole="AttendantSchedule" />
+        </EntityType>
+        <Association Name="FK_AssignmentCount_0_0">
+          <End Type="NurseryAssignerModel.AgeGroup" Role="AgeGroup" Multiplicity="1" />
+          <End Type="NurseryAssignerModel.AssignmentCount" Role="AssignmentCount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AgeGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AssignmentCount">
+              <PropertyRef Name="AgeGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendantSchedule_0_0">
+          <End Type="NurseryAssignerModel.Attendant" Role="Attendant" Multiplicity="1" />
+          <End Type="NurseryAssignerModel.AttendantSchedule" Role="AttendantSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attendant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttendantSchedule">
+              <PropertyRef Name="AttendantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendantSchedule_1_0">
+          <End Type="NurseryAssignerModel.ScheduledDay" Role="ScheduledDay" Multiplicity="1" />
+          <End Type="NurseryAssignerModel.AttendantSchedule" Role="AttendantSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduledDay">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttendantSchedule">
+              <PropertyRef Name="ScheduledDayID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NurseryAssignerModelStoreContainer" CdmEntityContainer="NurseryAssignerEntities">
+          <EntitySetMapping Name="AgeGroups">
+            <EntityTypeMapping TypeName="NurseryAssignerModel.AgeGroup">
+              <MappingFragment StoreEntitySet="AgeGroup">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attendants">
+            <EntityTypeMapping TypeName="NurseryAssignerModel.Attendant">
+              <MappingFragment StoreEntitySet="Attendant">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="AgeGroupID" ColumnName="AgeGroupID" />
+                <ScalarProperty Name="DoesAM" ColumnName="DoesAM" />
+                <ScalarProperty Name="DoesPM" ColumnName="DoesPM" />
+                <ScalarProperty Name="GradYear" ColumnName="GradYear" />
+                <ScalarProperty Name="ExclusionStart" ColumnName="ExclusionStart" />
+                <ScalarProperty Name="ExclusionEnd" ColumnName="ExclusionEnd" />
+                <ScalarProperty Name="IsInactive" ColumnName="IsInactive" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdditionalDays">
+            <EntityTypeMapping TypeName="NurseryAssignerModel.AdditionalDay">
+              <MappingFragment StoreEntitySet="AdditionalDay">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AMPM" ColumnName="AMPM" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssignmentCounts">
+            <EntityTypeMapping TypeName="NurseryAssignerModel.AssignmentCount">
+              <MappingFragment StoreEntitySet="AssignmentCount">
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AgeGroupID" ColumnName="AgeGroupID" />
+                <ScalarProperty Name="AMPM" ColumnName="AMPM" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttendantSchedules">
+            <EntityTypeMapping TypeName="NurseryAssignerModel.AttendantSchedule">
+              <MappingFragment StoreEntitySet="AttendantSchedule">
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="AttendantID" ColumnName="AttendantID" />
+                <ScalarProperty Name="ScheduledDayID" ColumnName="ScheduledDayID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduledDays">
+            <EntityTypeMapping TypeName="NurseryAssignerModel.ScheduledDay">
+              <MappingFragment StoreEntitySet="ScheduledDay">
+                <ScalarProperty Name="AMPM" ColumnName="AMPM" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
