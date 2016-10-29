@@ -22,38 +22,60 @@ namespace NurseryAssigner.Win
     {
       var startDate = new DateTime(2016, 7, 1);
       var endDate = new DateTime(2016, 12, 31);
+
+      loadByRange(startDate, endDate);
+    }
+
+    private int maxAttendantsPerDay
+    {
+      get
+      {
+        var db = new NurseryAssignerEntities();
+        long count = db.AssignmentCounts.GroupBy(c => c.AMPM).Select(g => g.Sum(v => v.Amount)).Max();
+        return Convert.ToInt32(count);
+      }
+    }
+
+    private void loadByRange(DateTime startDate, DateTime endDate)
+    {
       var db = new NurseryAssignerEntities();
       var days = db.ScheduledDays.Where(s => s.Date >= startDate && s.Date <= endDate)
         .OrderBy(s => s.Date).ThenBy(s => s.AMPM).ToList();
 
       scheduleTable.SuspendLayout();
-      int row = 1;
+      int row = 0;
+      var font = new Font(scheduleTable.Font, FontStyle.Bold);
       foreach (var day in days)
       {
-        scheduleTable.RowCount++;
         var newRowStyle = new RowStyle(SizeType.Absolute, 20);
         scheduleTable.RowStyles.Add(newRowStyle);
-        addLabel(day.Date.ToString("MMM d"), 0, row);
-        addLabel(day.AMPM, 1, row);
-        foreach (var schedule in day.AttendantSchedules.OrderBy(s => s.Position))
-          addPerson(schedule, Convert.ToInt32(schedule.Position) + 1, row);
-
+        addLabel(day.Date.ToString("MMM d"), 0, row, font);
+        addLabel(day.AMPM, 1, row, font);
+        for (int x = 1; x <= maxAttendantsPerDay; x++)
+        {
+          var schedule = day.AttendantSchedules.FirstOrDefault(s => s.Position == x);
+          if (schedule != null)
+            addPerson(schedule, x + 1, row);
+          else
+            addLabel("", x + 1, row);
+        }
         row++;
+        scheduleTable.RowCount++;
       }
+      setCellColors(null);
       scheduleTable.ResumeLayout();
     }
 
     private void MainForm_Load(object sender, EventArgs e)
     {
-      var font = new Font(scheduleTable.Font, FontStyle.Bold);
-
-      addLabel("Date", 0, 0, font);
-      addLabel("A/P", 1, 0, font);
-      addLabel("First Adult", 2, 0, font);
-      addLabel("Second Adult", 3, 0, font);
-      addLabel("Third Adult", 4, 0, font);
-      addLabel("Middle School", 5, 0, font);
-      addLabel("Elementary", 6, 0, font);
+      var count = maxAttendantsPerDay;
+      for (int x = 1; x <= count; x++)
+      {
+     
+       var style = new ColumnStyle(SizeType.Absolute, 125);
+        scheduleTable.ColumnStyles.Add(style);
+        scheduleTable.ColumnCount++;
+      }
     }
 
     private void addLabel(string text, int column, int row, Font font = null)
@@ -61,6 +83,7 @@ namespace NurseryAssigner.Win
       var label = new Label();
       label.Text = text;
       label.Dock = DockStyle.Fill;
+      label.Margin = new Padding(0);
       label.TextAlign = ContentAlignment.MiddleLeft;
       if (font != null)
         label.Font = font;
@@ -73,6 +96,7 @@ namespace NurseryAssigner.Win
       label.Text = schedule.Attendant.FirstName + " " + schedule.Attendant.LastName;
       label.Tag = schedule;
       label.Dock = DockStyle.Fill;
+      label.Margin = new Padding(0);
       label.TextAlign = ContentAlignment.MiddleLeft;
       label.AllowDrop = true;
       label.MouseDown += Label_MouseDown;
@@ -82,12 +106,12 @@ namespace NurseryAssigner.Win
     }
 
     private void Label_DragDrop(object sender, DragEventArgs e)
-    {    
+    {
       var source = (Label)e.Data.GetData(typeof(Label));
       var destination = (Label)sender;
 
-      if (source.Text != destination.Text 
-        && MessageBox.Show("Are you sure you want to swap " + source.Text + " with " + destination.Text + "?", Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
+      if (source.Text != destination.Text
+        && MessageBox.Show("Are you sure you want to swap " + source.Text + " and " + destination.Text + "?", Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
       {
         var swap = source.Text;
         source.Text = destination.Text;
@@ -98,7 +122,7 @@ namespace NurseryAssigner.Win
         destination.Tag = tagSwap;
 
         var destSched = (AttendantSchedule)destination.Tag;
-        SetSelection(destSched.AttendantID);
+        setCellColors(destSched.AttendantID);
         destination.BackColor = Color.HotPink;
       }
     }
@@ -110,25 +134,31 @@ namespace NurseryAssigner.Win
 
     private void Label_MouseDown(object sender, MouseEventArgs e)
     {
-      var label = (Label)sender;      
+      var label = (Label)sender;
       var currentSched = (AttendantSchedule)(((Label)sender).Tag);
 
-      SetSelection(currentSched.AttendantID);
+      setCellColors(currentSched.AttendantID);
       label.BackColor = Color.HotPink;
 
       label.DoDragDrop(label, DragDropEffects.Move);
     }
 
-    private void SetSelection(long? attendantID)
+    private void setCellColors(long? selectedAttendantID)
     {
       foreach (var item in scheduleTable.Controls)
       {
-        if (item is Label && ((Label)item).Tag != null)
+        if (item is Label)
         {
           var label = (Label)item;
           var itemSched = (AttendantSchedule)label.Tag;
-          if (!attendantID.HasValue || itemSched.AttendantID != attendantID.Value)
-            label.BackColor = Color.Transparent;
+          if (!selectedAttendantID.HasValue || itemSched == null || itemSched.AttendantID != selectedAttendantID.Value)
+          {
+            var row = scheduleTable.GetRow(label);
+            if (row % 2 == 0)   //alternate row colors
+              label.BackColor = Color.Transparent;
+            else
+              label.BackColor = Color.Gainsboro;
+          }
           else
             label.BackColor = Color.Pink;
         }

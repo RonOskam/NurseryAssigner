@@ -63,19 +63,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.scheduleTable.AutoSize = true;
       this.scheduleTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-      this.scheduleTable.ColumnCount = 7;
+      this.scheduleTable.ColumnCount = 2;
       this.scheduleTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
       this.scheduleTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-      this.scheduleTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
-      this.scheduleTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
-      this.scheduleTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
-      this.scheduleTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
-      this.scheduleTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
-      this.scheduleTable.Location = new System.Drawing.Point(0, 0);
+     this.scheduleTable.Location = new System.Drawing.Point(0, 0);
       this.scheduleTable.Name = "scheduleTable";
       this.scheduleTable.RowCount = 1;
       this.scheduleTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
-      this.scheduleTable.Size = new System.Drawing.Size(715, 18);
+      this.scheduleTable.Size = new System.Drawing.Size(90, 18);
       this.scheduleTable.TabIndex = 1;
       // 
       // MainForm
