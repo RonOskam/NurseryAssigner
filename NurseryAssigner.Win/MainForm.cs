@@ -19,6 +19,9 @@ namespace NurseryAssigner.Win
       InitializeComponent();
     }
 
+    private readonly Color _selectedColor = Color.HotPink;
+    private Label _selectedItem = null;
+
     private void loadButton_Click(object sender, EventArgs e)
     {
       var startDate = new DateTime(2016, 7, 1);
@@ -126,7 +129,7 @@ namespace NurseryAssigner.Win
 
         var destSched = (AttendantSchedule)destination.Tag;
         setCellColors(destSched.AttendantID);
-        destination.BackColor = Color.HotPink;
+        destination.BackColor = _selectedColor;
       }
       else
         destination.BorderStyle = BorderStyle.None;
@@ -155,13 +158,13 @@ namespace NurseryAssigner.Win
       var currentSched = (AttendantSchedule)(((Label)sender).Tag);
       if (e.Button == MouseButtons.Left)
       {
+        _selectedItem = label;
         setCellColors(currentSched.AttendantID);
-        label.BackColor = Color.HotPink;
-        label.Parent.Controls[1].Visible = true;
+        label.BackColor = _selectedColor;
 
         label.DoDragDrop(label, DragDropEffects.Move);
       }
-      else if (e.Button == MouseButtons.Right)
+      else if (e.Button == MouseButtons.Right && label.BackColor == _selectedColor)
       {
         setupContextMenu(currentSched.Attendant);
         attendantMenu.Show(label, 0, 20);
@@ -173,14 +176,47 @@ namespace NurseryAssigner.Win
       attendantMenu.Items.Clear();
 
       var db = new NurseryAssignerEntities();
+
+      //add people from the same age group
       var list = db.Attendants.Where(a => !a.IsInactive && a.AgeGroupID == attendant.AgeGroupID).OrderBy(a => a.LastName)
         .ThenBy(a => a.FirstName).ToList();
       foreach (var item in list)
       {
         var menuItem = new ToolStripMenuItem(item.LastFirst);
         menuItem.Checked = (attendant.ID == item.ID);
+        menuItem.Tag = item;
+        menuItem.Click += ChangePerson_Click;
         attendantMenu.Items.Add(menuItem);
       }
+
+      //add sub menu items for people from other age groups
+      attendantMenu.Items.Add(new ToolStripSeparator());
+      var otherGroups = db.AgeGroups.Where(g => g.ID != attendant.AgeGroupID).ToList();
+      foreach (var item in otherGroups)
+      {
+        var menuItem = new ToolStripMenuItem(item.Name);
+        attendantMenu.Items.Add(menuItem);
+
+        var otherAttendants = db.Attendants.Where(a => !a.IsInactive && a.AgeGroupID == item.ID).OrderBy(a => a.LastName)
+          .ThenBy(a => a.FirstName).ToList();
+        foreach (var other in otherAttendants)
+        {
+          var subItem = new ToolStripMenuItem(other.LastFirst);
+          subItem.Tag = other;
+          subItem.Click += ChangePerson_Click;
+          menuItem.DropDownItems.Add(subItem);
+        }
+      }
+    }
+
+    private void ChangePerson_Click(object sender, EventArgs e)
+    {
+      var destination = (Attendant)(((ToolStripMenuItem)sender).Tag);
+      var source = (AttendantSchedule)_selectedItem.Tag;
+
+      _selectedItem.Text = destination.FullName;
+      source.Attendant = destination;
+      source.AttendantID = destination.ID;
     }
 
     private void setCellColors(long? selectedAttendantID)

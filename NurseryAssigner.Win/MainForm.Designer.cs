@@ -36,12 +36,12 @@
       this.name1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.attendantsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.ageGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.assignmentCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.scrollPanel.SuspendLayout();
       this.attendantMenu.SuspendLayout();
       this.menuStrip1.SuspendLayout();
@@ -116,18 +116,6 @@
       this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
       this.fileToolStripMenuItem.Text = "File";
       // 
-      // newToolStripMenuItem
-      // 
-      this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-      this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-      this.newToolStripMenuItem.Text = "New";
-      // 
-      // openToolStripMenuItem
-      // 
-      this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-      this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-      this.openToolStripMenuItem.Text = "Open";
-      // 
       // editToolStripMenuItem
       // 
       this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -155,6 +143,18 @@
       this.assignmentCountToolStripMenuItem.Name = "assignmentCountToolStripMenuItem";
       this.assignmentCountToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
       this.assignmentCountToolStripMenuItem.Text = "Assignment Count";
+      // 
+      // newToolStripMenuItem
+      // 
+      this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+      this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+      this.newToolStripMenuItem.Text = "New";
+      // 
+      // openToolStripMenuItem
+      // 
+      this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+      this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+      this.openToolStripMenuItem.Text = "Open";
       // 
       // MainForm
       // 
