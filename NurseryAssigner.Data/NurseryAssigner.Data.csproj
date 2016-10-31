@@ -74,6 +74,7 @@
     <Compile Include="Attendant.cs">
       <DependentUpon>NurseryAssigner.tt</DependentUpon>
     </Compile>
+    <Compile Include="Attendant.partial.cs" />
     <Compile Include="AttendantSchedule.cs">
       <DependentUpon>NurseryAssigner.tt</DependentUpon>
     </Compile>
