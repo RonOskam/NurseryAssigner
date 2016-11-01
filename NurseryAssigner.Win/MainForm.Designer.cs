@@ -137,6 +137,7 @@
       this.ageGroupsToolStripMenuItem.Name = "ageGroupsToolStripMenuItem";
       this.ageGroupsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
       this.ageGroupsToolStripMenuItem.Text = "Age Groups";
+      this.ageGroupsToolStripMenuItem.Click += new System.EventHandler(this.ageGroupsToolStripMenuItem_Click);
       // 
       // assignmentCountToolStripMenuItem
       // 
