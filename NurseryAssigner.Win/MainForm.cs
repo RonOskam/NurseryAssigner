@@ -245,7 +245,8 @@ namespace NurseryAssigner.Win
 
     private void assignmentCountToolStripMenuItem_Click(object sender, EventArgs e)
     {
-
+      var dialog = new AssignmentCountDialog();
+      dialog.ShowDialog();
     }
 
     private void ageGroupsToolStripMenuItem_Click(object sender, EventArgs e)

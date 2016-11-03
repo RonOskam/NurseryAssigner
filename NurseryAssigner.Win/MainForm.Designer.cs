@@ -144,6 +144,7 @@
       this.assignmentCountToolStripMenuItem.Name = "assignmentCountToolStripMenuItem";
       this.assignmentCountToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
       this.assignmentCountToolStripMenuItem.Text = "Assignment Count";
+      this.assignmentCountToolStripMenuItem.Click += new System.EventHandler(this.assignmentCountToolStripMenuItem_Click);
       // 
       // newToolStripMenuItem
       // 

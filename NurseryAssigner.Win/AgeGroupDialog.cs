@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NurseryAssigner.Data;
+using System.Collections;
 
 namespace NurseryAssigner.Win
 {
@@ -40,10 +41,11 @@ namespace NurseryAssigner.Win
     private void LoadData(List<AgeGroup> source)
     {
       DataSource = null;
-      DataSource = source; 
+      DataSource = source;
+
       groupGridView.Columns[0].Visible = false;
       groupGridView.Columns[2].Visible = false;
-      groupGridView.Columns[3].Visible = false; 
+      groupGridView.Columns[3].Visible = false;
     }
 
     private void okButton_Click(object sender, EventArgs e)
@@ -62,6 +64,7 @@ namespace NurseryAssigner.Win
     private void addButton_Click(object sender, EventArgs e)
     {
       var record = new AgeGroup();
+      
       DataSource.Add(record);
       _db.AgeGroups.Add(record);
       LoadData(DataSource);
