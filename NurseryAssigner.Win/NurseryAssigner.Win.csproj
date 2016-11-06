@@ -78,6 +78,12 @@
     <Compile Include="AssignmentCountDialog.Designer.cs">
       <DependentUpon>AssignmentCountDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="AttendantDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AttendantDialog.Designer.cs">
+      <DependentUpon>AttendantDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AssignmentCountDialog.resx">
       <DependentUpon>AssignmentCountDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AttendantDialog.resx">
+      <DependentUpon>AttendantDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

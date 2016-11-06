@@ -51,7 +51,7 @@
       this.groupGridView.RowHeadersWidth = 25;
       this.groupGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
       this.groupGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-      this.groupGridView.Size = new System.Drawing.Size(284, 215);
+      this.groupGridView.Size = new System.Drawing.Size(284, 220);
       this.groupGridView.TabIndex = 0;
       // 
       // button1

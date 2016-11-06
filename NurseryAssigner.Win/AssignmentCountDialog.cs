@@ -24,8 +24,6 @@ namespace NurseryAssigner.Win
     private void AssignmentCountDialog_Load(object sender, EventArgs e)
     {
       LoadData(_db.AssignmentCounts.OrderBy(c => c.AMPM).ThenBy(c => c.AgeGroupID).ToList());
-
-
     }
 
     private List<AssignmentCount> DataSource
@@ -86,7 +84,8 @@ namespace NurseryAssigner.Win
     private void addButton_Click(object sender, EventArgs e)
     {
       var record = new AssignmentCount();
-
+      record.AMPM = "AM";
+      record.AgeGroupID = 1;
       DataSource.Add(record);
       _db.AssignmentCounts.Add(record);
       LoadData(DataSource);

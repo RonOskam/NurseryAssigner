@@ -254,5 +254,12 @@ namespace NurseryAssigner.Win
       var dialog = new AgeGroupDialog();
       dialog.ShowDialog();
     }
+
+    private void attendantsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      var dialog = new AttendantDialog();
+      dialog.ShowDialog();
+    }
+
   }
 }
