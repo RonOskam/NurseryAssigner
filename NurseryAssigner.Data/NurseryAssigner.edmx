@@ -5,7 +5,7 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="NurseryAssignerModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\oaisd_app\NurseryAssigner\Data\NurseryAssigner.sqlite" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="AdditionalDay">
+        <EntityType Name="AdditionalService">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -52,11 +52,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ScheduledDayID" Type="integer" Nullable="false" />
+          <Property Name="ServiceID" Type="integer" Nullable="false" />
           <Property Name="AttendantID" Type="integer" Nullable="false" />
           <Property Name="Position" Type="integer" Nullable="false" />
         </EntityType>
-        <EntityType Name="ScheduledDay">
+        <EntityType Name="Service">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -101,24 +101,24 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AttendantSchedule_1_0">
-          <End Role="ScheduledDay" Type="Self.ScheduledDay" Multiplicity="1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
           <End Role="AttendantSchedule" Type="Self.AttendantSchedule" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ScheduledDay">
+            <Principal Role="Service">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="AttendantSchedule">
-              <PropertyRef Name="ScheduledDayID" />
+              <PropertyRef Name="ServiceID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="NurseryAssignerModelStoreContainer">
-          <EntitySet Name="AdditionalDay" EntityType="Self.AdditionalDay" store:Type="Tables" />
+          <EntitySet Name="AdditionalService" EntityType="Self.AdditionalService" store:Type="Tables" />
           <EntitySet Name="AgeGroup" EntityType="Self.AgeGroup" store:Type="Tables" />
           <EntitySet Name="AssignmentCount" EntityType="Self.AssignmentCount" store:Type="Tables" />
           <EntitySet Name="Attendant" EntityType="Self.Attendant" store:Type="Tables" />
           <EntitySet Name="AttendantSchedule" EntityType="Self.AttendantSchedule" store:Type="Tables" />
-          <EntitySet Name="ScheduledDay" EntityType="Self.ScheduledDay" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" store:Type="Tables" />
           <AssociationSet Name="FK_AssignmentCount_0_0" Association="Self.FK_AssignmentCount_0_0">
             <End Role="AgeGroup" EntitySet="AgeGroup" />
             <End Role="AssignmentCount" EntitySet="AssignmentCount" />
@@ -132,7 +132,7 @@
             <End Role="AttendantSchedule" EntitySet="AttendantSchedule" />
           </AssociationSet>
           <AssociationSet Name="FK_AttendantSchedule_1_0" Association="Self.FK_AttendantSchedule_1_0">
-            <End Role="ScheduledDay" EntitySet="ScheduledDay" />
+            <End Role="Service" EntitySet="Service" />
             <End Role="AttendantSchedule" EntitySet="AttendantSchedule" />
           </AssociationSet>
         </EntityContainer>
@@ -187,10 +187,10 @@
             <End Role="AgeGroup" EntitySet="AgeGroups" />
             <End Role="Attendant" EntitySet="Attendants" />
           </AssociationSet>
-          <EntitySet Name="AdditionalDays" EntityType="NurseryAssignerModel.AdditionalDay" />
+          <EntitySet Name="AdditionalServices" EntityType="NurseryAssignerModel.AdditionalService" />
           <EntitySet Name="AssignmentCounts" EntityType="NurseryAssignerModel.AssignmentCount" />
           <EntitySet Name="AttendantSchedules" EntityType="NurseryAssignerModel.AttendantSchedule" />
-          <EntitySet Name="ScheduledDays" EntityType="NurseryAssignerModel.ScheduledDay" />
+          <EntitySet Name="Services" EntityType="NurseryAssignerModel.Service" />
           <AssociationSet Name="FK_AssignmentCount_0_0" Association="NurseryAssignerModel.FK_AssignmentCount_0_0">
             <End Role="AgeGroup" EntitySet="AgeGroups" />
             <End Role="AssignmentCount" EntitySet="AssignmentCounts" />
@@ -200,11 +200,11 @@
             <End Role="AttendantSchedule" EntitySet="AttendantSchedules" />
           </AssociationSet>
           <AssociationSet Name="FK_AttendantSchedule_1_0" Association="NurseryAssignerModel.FK_AttendantSchedule_1_0">
-            <End Role="ScheduledDay" EntitySet="ScheduledDays" />
+            <End Role="Service" EntitySet="Services" />
             <End Role="AttendantSchedule" EntitySet="AttendantSchedules" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="AdditionalDay">
+        <EntityType Name="AdditionalService">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -228,20 +228,20 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ScheduledDayID" Type="Int64" Nullable="false" />
+          <Property Name="ServiceID" Type="Int64" Nullable="false" />
           <Property Name="AttendantID" Type="Int64" Nullable="false" />
           <Property Name="Position" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Attendant" Relationship="NurseryAssignerModel.FK_AttendantSchedule_0_0" FromRole="AttendantSchedule" ToRole="Attendant" />
-          <NavigationProperty Name="ScheduledDay" Relationship="NurseryAssignerModel.FK_AttendantSchedule_1_0" FromRole="AttendantSchedule" ToRole="ScheduledDay" />
+          <NavigationProperty Name="Service" Relationship="NurseryAssignerModel.FK_AttendantSchedule_1_0" FromRole="AttendantSchedule" ToRole="Service" />
         </EntityType>
-        <EntityType Name="ScheduledDay">
+        <EntityType Name="Service">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Nullable="false" />
           <Property Name="AMPM" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AttendantSchedules" Relationship="NurseryAssignerModel.FK_AttendantSchedule_1_0" FromRole="ScheduledDay" ToRole="AttendantSchedule" />
+          <NavigationProperty Name="AttendantSchedules" Relationship="NurseryAssignerModel.FK_AttendantSchedule_1_0" FromRole="Service" ToRole="AttendantSchedule" />
         </EntityType>
         <Association Name="FK_AssignmentCount_0_0">
           <End Type="NurseryAssignerModel.AgeGroup" Role="AgeGroup" Multiplicity="1" />
@@ -268,14 +268,14 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AttendantSchedule_1_0">
-          <End Type="NurseryAssignerModel.ScheduledDay" Role="ScheduledDay" Multiplicity="1" />
+          <End Type="NurseryAssignerModel.Service" Role="Service" Multiplicity="1" />
           <End Type="NurseryAssignerModel.AttendantSchedule" Role="AttendantSchedule" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ScheduledDay">
+            <Principal Role="Service">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="AttendantSchedule">
-              <PropertyRef Name="ScheduledDayID" />
+              <PropertyRef Name="ServiceID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -311,9 +311,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="AdditionalDays">
-            <EntityTypeMapping TypeName="NurseryAssignerModel.AdditionalDay">
-              <MappingFragment StoreEntitySet="AdditionalDay">
+          <EntitySetMapping Name="AdditionalServices">
+            <EntityTypeMapping TypeName="NurseryAssignerModel.AdditionalService">
+              <MappingFragment StoreEntitySet="AdditionalService">
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="AMPM" ColumnName="AMPM" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
@@ -336,14 +336,14 @@
               <MappingFragment StoreEntitySet="AttendantSchedule">
                 <ScalarProperty Name="Position" ColumnName="Position" />
                 <ScalarProperty Name="AttendantID" ColumnName="AttendantID" />
-                <ScalarProperty Name="ScheduledDayID" ColumnName="ScheduledDayID" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ScheduledDays">
-            <EntityTypeMapping TypeName="NurseryAssignerModel.ScheduledDay">
-              <MappingFragment StoreEntitySet="ScheduledDay">
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="NurseryAssignerModel.Service">
+              <MappingFragment StoreEntitySet="Service">
                 <ScalarProperty Name="AMPM" ColumnName="AMPM" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

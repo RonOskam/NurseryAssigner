@@ -12,7 +12,7 @@ namespace NurseryAssigner.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class AdditionalDay
+    public partial class AdditionalService
     {
         public long ID { get; set; }
         public System.DateTime Date { get; set; }

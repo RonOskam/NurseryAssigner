@@ -23,5 +23,16 @@ namespace NurseryAssigner.Data
         return LastName + ", " + FirstName;
       }
     }
+
+    public static long MaxAttendantsPerDay
+    {
+      get
+      {
+        var db = new NurseryAssignerEntities();
+        long count = db.AssignmentCounts.GroupBy(c => c.AMPM).Select(g => g.Sum(v => v.Amount)).Max();
+        return Convert.ToInt32(count);
+      }
+    }
+
   }
 }

@@ -36,6 +36,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.v15.2, Version=15.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\DevExpress 15.2\Components\Bin\Framework\DevExpress.Data.v15.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v15.2, Version=15.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\DevExpress 15.2\Components\Bin\Framework\DevExpress.Utils.v15.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v15.2, Version=15.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\DevExpress 15.2\Components\Bin\Framework\DevExpress.XtraEditors.v15.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v15.2, Version=15.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\DevExpress 15.2\Components\Bin\Framework\DevExpress.XtraGrid.v15.2.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -66,6 +82,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalDayDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdditionalDayDialog.Designer.cs">
+      <DependentUpon>AdditionalDayDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="AgeGroupDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +106,18 @@
     <Compile Include="AttendantDialog.Designer.cs">
       <DependentUpon>AttendantDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="DateRangeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DateRangeDialog.Designer.cs">
+      <DependentUpon>DateRangeDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistributionDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DistributionDisplay.Designer.cs">
+      <DependentUpon>DistributionDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +126,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AdditionalDayDialog.resx">
+      <DependentUpon>AdditionalDayDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AgeGroupDialog.resx">
       <DependentUpon>AgeGroupDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -101,9 +138,16 @@
     <EmbeddedResource Include="AttendantDialog.resx">
       <DependentUpon>AttendantDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DateRangeDialog.resx">
+      <DependentUpon>DateRangeDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistributionDisplay.resx">
+      <DependentUpon>DistributionDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

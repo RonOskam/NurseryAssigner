@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.Entity;
 
 namespace NurseryAssigner.Win
 {
@@ -16,56 +17,27 @@ namespace NurseryAssigner.Win
     public AssignmentCountDialog()
     {
       InitializeComponent();
-  
+      
+      _db.AssignmentCounts.LoadAsync().ContinueWith(loadTask =>
+      {
+        // Bind data to control when loading complete
+        gridControl.DataSource = _db.AssignmentCounts.Local.ToBindingList();
+      }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
     private NurseryAssignerEntities _db = new NurseryAssignerEntities();
 
     private void AssignmentCountDialog_Load(object sender, EventArgs e)
     {
-      LoadData(_db.AssignmentCounts.OrderBy(c => c.AMPM).ThenBy(c => c.AgeGroupID).ToList());
-    }
+      var list = new List<string>();
+      list.Add("AM");
+      list.Add("PM");
+      ampmLookUpEdit.DataSource = list;
 
-    private List<AssignmentCount> DataSource
-    {
-      get
-      {
-        return (List<AssignmentCount>)groupGridView.DataSource;
-      }
-      set
-      {
-        groupGridView.DataSource = value;
-      }
-    }
-
-    private void LoadData(List<AssignmentCount> source)
-    {
-      DataSource = null;
-      DataSource = source;
-
-      groupGridView.Columns.Clear();
-
-      var apColumn = new DataGridViewComboBoxColumn();
-      apColumn.DataSource = new string[] { "AM", "PM" };
-      apColumn.DataPropertyName = "AMPM";
-      apColumn.HeaderText = "AMPM";
-      apColumn.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-      
-      groupGridView.Columns.Add(apColumn);
-
-      var groupColumn = new DataGridViewComboBoxColumn();
-      groupColumn.DataSource = _db.AgeGroups.ToList();
-      groupColumn.HeaderText = "Age Group";
-      groupColumn.DataPropertyName = "AgeGroupID";
-      groupColumn.ValueMember = "ID";
-      groupColumn.DisplayMember = "Name";
-      groupColumn.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-      groupGridView.Columns.Add(groupColumn);
-
-      var amountColumn = new DataGridViewTextBoxColumn();
-      amountColumn.HeaderText = "Count";
-      amountColumn.DataPropertyName = "Amount";
-      groupGridView.Columns.Add(amountColumn);
+      ageGroupLookUpEdit.DataSource = _db.AgeGroups.ToList();
+      ageGroupLookUpEdit.DisplayMember = "Name";
+      ageGroupLookUpEdit.ValueMember = "ID";
+      ageGroupLookUpEdit.Columns.Add(new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name"));
     }
 
     private void okButton_Click(object sender, EventArgs e)
@@ -86,20 +58,13 @@ namespace NurseryAssigner.Win
       var record = new AssignmentCount();
       record.AMPM = "AM";
       record.AgeGroupID = 1;
-      DataSource.Add(record);
+ 
       _db.AssignmentCounts.Add(record);
-      LoadData(DataSource);
     }
 
     private void deleteButton_Click(object sender, EventArgs e)
     {
-      if (groupGridView.CurrentRow != null)
-      {
-        var row = (AssignmentCount)(groupGridView.CurrentRow.DataBoundItem);
-        DataSource.Remove(row);
-        _db.AssignmentCounts.Remove(row);
-        LoadData(DataSource);
-      }
+      gridView.DeleteSelectedRows();
     }
 
   }

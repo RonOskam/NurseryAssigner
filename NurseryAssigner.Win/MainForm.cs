@@ -20,30 +20,15 @@ namespace NurseryAssigner.Win
     }
 
     private readonly Color _selectedColor = Color.HotPink;
+    private NurseryAssignerEntities _db = new NurseryAssignerEntities();
     private Label _selectedItem = null;
-
-    private void loadButton_Click(object sender, EventArgs e)
-    {
-      var startDate = new DateTime(2016, 7, 1);
-      var endDate = new DateTime(2016, 12, 31);
-
-      loadByRange(startDate, endDate);
-    }
-
-    private int maxAttendantsPerDay
-    {
-      get
-      {
-        var db = new NurseryAssignerEntities();
-        long count = db.AssignmentCounts.GroupBy(c => c.AMPM).Select(g => g.Sum(v => v.Amount)).Max();
-        return Convert.ToInt32(count);
-      }
-    }
 
     private void loadByRange(DateTime startDate, DateTime endDate)
     {
-      var db = new NurseryAssignerEntities();
-      var days = db.ScheduledDays.Where(s => s.Date >= startDate && s.Date <= endDate)
+      startDateLabel.Text = startDate.ToShortDateString();
+      endDateLabel.Text = endDate.ToShortDateString();
+
+      var days = _db.Services.Include("AttendantSchedules.Attendant").Where(s => s.Date >= startDate && s.Date <= endDate)
         .OrderBy(s => s.Date).ThenBy(s => s.AMPM).ToList();
 
       scheduleTable.SuspendLayout();
@@ -55,7 +40,7 @@ namespace NurseryAssigner.Win
         scheduleTable.RowStyles.Add(newRowStyle);
         addLabel(day.Date.ToString("MMM d"), 0, row, font);
         addLabel(day.AMPM, 1, row, font);
-        for (int x = 1; x <= maxAttendantsPerDay; x++)
+        for (int x = 1; x <= Attendant.MaxAttendantsPerDay; x++)
         {
           var schedule = day.AttendantSchedules.FirstOrDefault(s => s.Position == x);
           if (schedule != null)
@@ -68,17 +53,27 @@ namespace NurseryAssigner.Win
       }
       setCellColors(null);
       scheduleTable.ResumeLayout();
+
+      distributionDisplay.UpdateDisplay(startDate, endDate);
     }
 
     private void MainForm_Load(object sender, EventArgs e)
     {
-      var count = maxAttendantsPerDay;
+      var count = Attendant.MaxAttendantsPerDay;
       for (int x = 1; x <= count; x++)
       {
         var style = new ColumnStyle(SizeType.Absolute, 125);
         scheduleTable.ColumnStyles.Add(style);
         scheduleTable.ColumnCount++;
-      }
+      }      
+    }
+    
+    private void MainForm_Shown(object sender, EventArgs e)
+    {
+      if (Properties.Settings.Default.StartDate == DateTime.MinValue)
+        selectToolStripMenuItem_Click(null, EventArgs.Empty);
+      else
+        loadByRange(Properties.Settings.Default.StartDate, Properties.Settings.Default.EndDate);
     }
 
     private void addLabel(string text, int column, int row, Font font = null)
@@ -123,13 +118,17 @@ namespace NurseryAssigner.Win
         source.Text = destination.Text;
         destination.Text = swap;
 
-        var tagSwap = source.Tag;
-        source.Tag = destination.Tag;
-        destination.Tag = tagSwap;
-
         var destSched = (AttendantSchedule)destination.Tag;
         setCellColors(destSched.AttendantID);
         destination.BackColor = _selectedColor;
+
+        var sourceSched = (AttendantSchedule)source.Tag;
+        var swapAttendant = destSched.Attendant;
+        destSched.Attendant = sourceSched.Attendant;
+        sourceSched.Attendant = swapAttendant;
+
+        _db.SaveChanges();
+
       }
       else
         destination.BorderStyle = BorderStyle.None;
@@ -175,10 +174,8 @@ namespace NurseryAssigner.Win
     {
       attendantMenu.Items.Clear();
 
-      var db = new NurseryAssignerEntities();
-
       //add people from the same age group
-      var list = db.Attendants.Where(a => !a.IsInactive && a.AgeGroupID == attendant.AgeGroupID).OrderBy(a => a.LastName)
+      var list = _db.Attendants.Where(a => !a.IsInactive && a.AgeGroupID == attendant.AgeGroupID).OrderBy(a => a.LastName)
         .ThenBy(a => a.FirstName).ToList();
       foreach (var item in list)
       {
@@ -191,13 +188,13 @@ namespace NurseryAssigner.Win
 
       //add sub menu items for people from other age groups
       attendantMenu.Items.Add(new ToolStripSeparator());
-      var otherGroups = db.AgeGroups.Where(g => g.ID != attendant.AgeGroupID).ToList();
+      var otherGroups = _db.AgeGroups.Where(g => g.ID != attendant.AgeGroupID).ToList();
       foreach (var item in otherGroups)
       {
         var menuItem = new ToolStripMenuItem(item.Name);
         attendantMenu.Items.Add(menuItem);
 
-        var otherAttendants = db.Attendants.Where(a => !a.IsInactive && a.AgeGroupID == item.ID).OrderBy(a => a.LastName)
+        var otherAttendants = _db.Attendants.Where(a => !a.IsInactive && a.AgeGroupID == item.ID).OrderBy(a => a.LastName)
           .ThenBy(a => a.FirstName).ToList();
         foreach (var other in otherAttendants)
         {
@@ -217,6 +214,8 @@ namespace NurseryAssigner.Win
       _selectedItem.Text = destination.FullName;
       source.Attendant = destination;
       source.AttendantID = destination.ID;
+
+      _db.SaveChanges();
     }
 
     private void setCellColors(long? selectedAttendantID)
@@ -260,6 +259,26 @@ namespace NurseryAssigner.Win
       var dialog = new AttendantDialog();
       dialog.ShowDialog();
     }
+
+    private void additonalDayToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      var dialog = new AdditionalServiceDialog();
+      dialog.ShowDialog();
+    }
+
+    private void selectToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      var dialog = new DateRangeDialog();
+
+      if (dialog.ShowDialog() == DialogResult.OK)
+      {
+        var startDate = Properties.Settings.Default.StartDate;
+        var endDate = Properties.Settings.Default.EndDate;
+
+        loadByRange(startDate, endDate);
+      }
+    }
+
 
   }
 }

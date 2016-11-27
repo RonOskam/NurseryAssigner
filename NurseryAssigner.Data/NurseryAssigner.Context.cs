@@ -27,9 +27,9 @@ namespace NurseryAssigner.Data
     
         public virtual DbSet<AgeGroup> AgeGroups { get; set; }
         public virtual DbSet<Attendant> Attendants { get; set; }
-        public virtual DbSet<AdditionalDay> AdditionalDays { get; set; }
+        public virtual DbSet<AdditionalService> AdditionalServices { get; set; }
         public virtual DbSet<AssignmentCount> AssignmentCounts { get; set; }
         public virtual DbSet<AttendantSchedule> AttendantSchedules { get; set; }
-        public virtual DbSet<ScheduledDay> ScheduledDays { get; set; }
+        public virtual DbSet<Service> Services { get; set; }
     }
 }

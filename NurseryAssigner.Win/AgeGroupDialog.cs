@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NurseryAssigner.Data;
 using System.Collections;
+using System.Data.Entity;
 
 namespace NurseryAssigner.Win
 {
@@ -17,44 +18,23 @@ namespace NurseryAssigner.Win
     public AgeGroupDialog()
     {
       InitializeComponent();
+
+      _db.AgeGroups.LoadAsync().ContinueWith(loadTask =>
+      {
+        // Bind data to control when loading complete
+        gridControl.DataSource = _db.AgeGroups.Local.ToBindingList();
+      }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
     private NurseryAssignerEntities _db = new NurseryAssignerEntities();
-
-    private void AgeGroups_Load(object sender, EventArgs e)
-    {
-      LoadData(_db.AgeGroups.ToList());
-    }
-
-    private List<AgeGroup> DataSource
-    {
-      get
-      {
-        return (List<AgeGroup>)groupGridView.DataSource;
-      }
-      set
-      {
-        groupGridView.DataSource = value;
-      }
-    }
-
-    private void LoadData(List<AgeGroup> source)
-    {
-      DataSource = null;
-      DataSource = source;
-
-      groupGridView.Columns[0].Visible = false;
-      groupGridView.Columns[2].Visible = false;
-      groupGridView.Columns[3].Visible = false;
-    }
-
+    
     private void okButton_Click(object sender, EventArgs e)
     {
       try
       {
         _db.SaveChanges();
       }
-      catch(Exception err)
+      catch (Exception err)
       {
         MessageBox.Show("Could not save changes: \r\n\r\n" + err.Message, Application.ProductName);
         this.DialogResult = DialogResult.None;
@@ -64,22 +44,12 @@ namespace NurseryAssigner.Win
     private void addButton_Click(object sender, EventArgs e)
     {
       var record = new AgeGroup();
-      
-      DataSource.Add(record);
       _db.AgeGroups.Add(record);
-      LoadData(DataSource);
     }
 
     private void deleteButton_Click(object sender, EventArgs e)
     {
-      if (groupGridView.CurrentRow != null)
-      {
-        var row = (AgeGroup)(groupGridView.CurrentRow.DataBoundItem);
-        DataSource.Remove(row);
-        _db.AgeGroups.Remove(row);
-        LoadData(DataSource);
-      }
+      gridView.DeleteSelectedRows();
     }
-
   }
 }

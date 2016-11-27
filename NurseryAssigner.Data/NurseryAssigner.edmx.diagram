@@ -8,10 +8,10 @@
         <EntityTypeShape EntityType="NurseryAssignerModel.AgeGroup" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="NurseryAssignerModel.Attendant" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="NurseryAssignerModel.FK_Attendant_0_0" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="NurseryAssignerModel.AdditionalDay" Width="1.5" PointX="3" PointY="5.375" />
+        <EntityTypeShape EntityType="NurseryAssignerModel.AdditionalService" Width="1.5" PointX="3" PointY="5.375" />
         <EntityTypeShape EntityType="NurseryAssignerModel.AssignmentCount" Width="1.5" PointX="0.625" PointY="4.375" />
         <EntityTypeShape EntityType="NurseryAssignerModel.AttendantSchedule" Width="1.5" PointX="5.25" PointY="1.75" />
-        <EntityTypeShape EntityType="NurseryAssignerModel.ScheduledDay" Width="1.5" PointX="5.375" PointY="4.625" />
+        <EntityTypeShape EntityType="NurseryAssignerModel.Service" Width="1.5" PointX="5.375" PointY="4.625" />
         <AssociationConnector Association="NurseryAssignerModel.FK_AssignmentCount_0_0" />
         <AssociationConnector Association="NurseryAssignerModel.FK_AttendantSchedule_0_0" />
         <AssociationConnector Association="NurseryAssignerModel.FK_AttendantSchedule_1_0" />

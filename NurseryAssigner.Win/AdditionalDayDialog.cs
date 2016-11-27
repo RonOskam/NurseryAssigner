@@ -1,43 +1,39 @@
-﻿using NurseryAssigner.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NurseryAssigner.Data;
+using System.Collections;
+using System.Data.Entity;
 
 namespace NurseryAssigner.Win
 {
-  public partial class AttendantDialog : Form
+  public partial class AdditionalServiceDialog : Form
   {
-    public AttendantDialog()
+    public AdditionalServiceDialog()
     {
       InitializeComponent();
 
-      _db.Attendants.LoadAsync().ContinueWith(loadTask =>
+      _db.AdditionalServices.LoadAsync().ContinueWith(loadTask =>
       {
         // Bind data to control when loading complete
-        gridControl.DataSource = _db.Attendants.Local.ToBindingList().OrderBy(a => a.LastName).ThenBy(a => a.FirstName);
+        gridControl.DataSource = _db.AdditionalServices.Local.ToBindingList();
       }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
     private NurseryAssignerEntities _db = new NurseryAssignerEntities();
 
-    private void AttendantDialog_Load(object sender, EventArgs e)
+    private void AdditionalServices_Load(object sender, EventArgs e)
     {
       var list = new List<string>();
-      list.Add("M");
-      list.Add("F");
-      genderLookUpEdit.DataSource = list;
-
-      ageGroupLookUpEdit.DataSource = _db.AgeGroups.ToList();
-      ageGroupLookUpEdit.DisplayMember = "Name";
-      ageGroupLookUpEdit.ValueMember = "ID";
-      ageGroupLookUpEdit.Columns.Add(new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name"));
+      list.Add("AM");
+      list.Add("PM");
+      ampmLookUpEdit.DataSource = list;
     }
 
     private void okButton_Click(object sender, EventArgs e)
@@ -55,16 +51,16 @@ namespace NurseryAssigner.Win
 
     private void addButton_Click(object sender, EventArgs e)
     {
-      var record = new AssignmentCount();
+      var record = new AdditionalService();
       record.AMPM = "AM";
-      record.AgeGroupID = 1;
 
-      _db.AssignmentCounts.Add(record);
+      _db.AdditionalServices.Add(record);
     }
 
     private void deleteButton_Click(object sender, EventArgs e)
     {
       gridView.DeleteSelectedRows();
     }
+
   }
 }

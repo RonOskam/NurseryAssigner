@@ -15,11 +15,11 @@ namespace NurseryAssigner.Data
     public partial class AttendantSchedule
     {
         public long ID { get; set; }
-        public long ScheduledDayID { get; set; }
+        public long ServiceID { get; set; }
         public long AttendantID { get; set; }
         public long Position { get; set; }
     
         public virtual Attendant Attendant { get; set; }
-        public virtual ScheduledDay ScheduledDay { get; set; }
+        public virtual Service Service { get; set; }
     }
 }
