@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NurseryAssigner.Data;
 using System.Reflection;
+using DevExpress.XtraReports.UI;
+using DevExpress.LookAndFeel;
 
 namespace NurseryAssigner.Win
 {
@@ -23,7 +25,7 @@ namespace NurseryAssigner.Win
     private NurseryAssignerEntities _db = new NurseryAssignerEntities();
     private Label _selectedItem = null;
 
-    private void loadByRange(DateTime startDate, DateTime endDate)
+    private bool loadByRange(DateTime startDate, DateTime endDate)
     {
       startDateLabel.Text = startDate.ToShortDateString();
       endDateLabel.Text = endDate.ToShortDateString();
@@ -31,30 +33,37 @@ namespace NurseryAssigner.Win
       var days = _db.Services.Include("AttendantSchedules.Attendant").Where(s => s.Date >= startDate && s.Date <= endDate)
         .OrderBy(s => s.Date).ThenBy(s => s.AMPM).ToList();
 
-      scheduleTable.SuspendLayout();
-      int row = 0;
-      var font = new Font(scheduleTable.Font, FontStyle.Bold);
-      foreach (var day in days)
+      if (!days.Any())
+        return false;
+      else
       {
-        var newRowStyle = new RowStyle(SizeType.Absolute, 20);
-        scheduleTable.RowStyles.Add(newRowStyle);
-        addLabel(day.Date.ToString("MMM d"), 0, row, font);
-        addLabel(day.AMPM, 1, row, font);
-        for (int x = 1; x <= Attendant.MaxAttendantsPerDay; x++)
+        scheduleTable.SuspendLayout();
+        int row = 0;
+        var font = new Font(scheduleTable.Font, FontStyle.Bold);
+        foreach (var day in days)
         {
-          var schedule = day.AttendantSchedules.FirstOrDefault(s => s.Position == x);
-          if (schedule != null)
-            addPerson(schedule, x + 1, row);
-          else
-            addLabel("", x + 1, row);
+          var newRowStyle = new RowStyle(SizeType.Absolute, 20);
+          scheduleTable.RowStyles.Add(newRowStyle);
+          addLabel(day.Date.ToString("MMM d"), 0, row, font);
+          addLabel(day.AMPM, 1, row, font);
+          for (int x = 1; x <= Attendant.MaxAttendantsPerDay; x++)
+          {
+            var schedule = day.AttendantSchedules.FirstOrDefault(s => s.Position == x);
+            if (schedule != null)
+              addPerson(schedule, x + 1, row);
+            else
+              addLabel("", x + 1, row);
+          }
+          row++;
+          scheduleTable.RowCount++;
         }
-        row++;
-        scheduleTable.RowCount++;
-      }
-      setCellColors(null);
-      scheduleTable.ResumeLayout();
+        setCellColors(null);
+        scheduleTable.ResumeLayout();
 
-      distributionDisplay.UpdateDisplay(startDate, endDate);
+        distributionDisplay.DisplayCounts(startDate, endDate);
+
+        return true;
+      }
     }
 
     private void MainForm_Load(object sender, EventArgs e)
@@ -65,7 +74,13 @@ namespace NurseryAssigner.Win
         var style = new ColumnStyle(SizeType.Absolute, 125);
         scheduleTable.ColumnStyles.Add(style);
         scheduleTable.ColumnCount++;
-      }      
+      }
+
+      if (Properties.Settings.Default.MainFormHeight != 0)
+      {
+        Height = Properties.Settings.Default.MainFormHeight;
+        Width = Properties.Settings.Default.MainFormWidth;
+      }
     }
     
     private void MainForm_Shown(object sender, EventArgs e)
@@ -128,7 +143,7 @@ namespace NurseryAssigner.Win
         sourceSched.Attendant = swapAttendant;
 
         _db.SaveChanges();
-
+        distributionDisplay.UpdateDisplay();
       }
       else
         destination.BorderStyle = BorderStyle.None;
@@ -216,6 +231,7 @@ namespace NurseryAssigner.Win
       source.AttendantID = destination.ID;
 
       _db.SaveChanges();
+      distributionDisplay.UpdateDisplay();
     }
 
     private void setCellColors(long? selectedAttendantID)
@@ -275,10 +291,50 @@ namespace NurseryAssigner.Win
         var startDate = Properties.Settings.Default.StartDate;
         var endDate = Properties.Settings.Default.EndDate;
 
-        loadByRange(startDate, endDate);
+        if (!loadByRange(startDate, endDate))
+        {
+          if (MessageBox.Show("There is nothing scheduled for this range, do you want create a schedule for it?", Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+          {
+            var builder = new ScheduleBuilder(startDate, endDate);
+            builder.BuildSchedule();
+          }
+        }
       }
     }
 
+    private void scrollPanel_MouseEnter(object sender, EventArgs e)
+    {
+      scrollPanel.Focus();
+    }
+
+    private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+      //Properties.Settings.Default.MainFormHeight = Height;
+      //Properties.Settings.Default.MainFormWidth = Width;
+    }
+
+    private void buildScheduleToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      var builder = new ScheduleBuilder(Properties.Settings.Default.StartDate, Properties.Settings.Default.EndDate);
+      if (builder.BeenScheduled && MessageBox.Show("Are you sure you want to overwrite the schedule for this date range?", Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
+        return;
+
+      builder.BuildSchedule();
+    }
+
+    private void attendantScheduleToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      var source = _db.AttendantSchedules.Where(s => s.Service.Date >= Properties.Settings.Default.StartDate && s.Service.Date <= Properties.Settings.Default.EndDate)
+  .OrderBy(s => s.Service.Date).ThenBy(s => s.Service.AMPM).ToList();
+
+      var report = new AttendantScheduleReport();
+      report.DataSource = source;
+
+      using (ReportPrintTool printTool = new ReportPrintTool(report))
+      {
+        printTool.ShowRibbonPreviewDialog();
+      }
+    }
 
   }
 }

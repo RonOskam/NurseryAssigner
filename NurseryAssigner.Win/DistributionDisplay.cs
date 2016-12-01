@@ -18,33 +18,50 @@ namespace NurseryAssigner.Win
       InitializeComponent();
     }
 
-    public void UpdateDisplay(DateTime start, DateTime end)
+    private DateTime _start;
+    private DateTime _end;
+
+    public void DisplayCounts(DateTime start, DateTime end)
+    {
+      _start = start;
+      _end = end;
+      UpdateDisplay();
+    }
+
+    public void UpdateDisplay()
     {
       var db = new NurseryAssignerEntities();
 
       var font = new Font(distributionTable.Font, FontStyle.Bold);
       var row = 0;
+      scrollPanel.SuspendLayout();
+      distributionTable.SuspendLayout();
+      var scrollPos = scrollPanel.HorizontalScroll.Value;
+
+      distributionTable.Controls.Clear();
 
       var groups = db.AgeGroups.ToList();
       foreach (var group in groups)
       {
-        var counts = db.AttendantSchedules.Where(s => s.Service.Date >= start && s.Service.Date <= end && s.Attendant.AgeGroupID == group.ID)
-          .OrderBy(s => s.Attendant.FirstName).ThenBy(s =>s.Attendant.LastName)
+        var counts = db.AttendantSchedules.Where(s => s.Service.Date >= _start && s.Service.Date <= _end && s.Attendant.AgeGroupID == group.ID)
           .GroupBy(s => s.Attendant)
           .Select(s => new { s.Key, Count = s.Count() }).ToList();
 
         addLabel(group.Name, 0, row, font);
         row++;
-        foreach(var person in counts)
+        foreach (var person in counts.OrderBy(a => a.Key.FirstName).ThenBy(a => a.Key.LastName).ToList())
         {
           addLabel(person.Key.FullName, 0, row);
           addLabel(person.Count.ToString(), 1, row);
-          var newRowStyle = new RowStyle(SizeType.Absolute, 20);
+          var newRowStyle = new RowStyle(SizeType.Absolute, 18);
           distributionTable.RowStyles.Add(newRowStyle);
           row++;
 
         }
       }
+      scrollPanel.HorizontalScroll.Value = scrollPos;
+      scrollPanel.ResumeLayout();
+      distributionTable.ResumeLayout();
     }
 
     private void addLabel(string text, int column, int row, Font font = null)
@@ -58,6 +75,11 @@ namespace NurseryAssigner.Win
       if (font != null)
         label.Font = font;
       distributionTable.Controls.Add(label, column, row);
+    }
+
+    private void scrollPanel_MouseEnter(object sender, EventArgs e)
+    {
+      scrollPanel.Focus();
     }
 
   }

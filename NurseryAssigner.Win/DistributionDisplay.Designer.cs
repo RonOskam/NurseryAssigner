@@ -42,6 +42,7 @@
       this.scrollPanel.Name = "scrollPanel";
       this.scrollPanel.Size = new System.Drawing.Size(219, 150);
       this.scrollPanel.TabIndex = 3;
+      this.scrollPanel.MouseEnter += new System.EventHandler(this.scrollPanel_MouseEnter);
       // 
       // distributionTable
       // 
@@ -60,6 +61,7 @@
       this.distributionTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
       this.distributionTable.Size = new System.Drawing.Size(156, 18);
       this.distributionTable.TabIndex = 1;
+      this.distributionTable.MouseEnter += new System.EventHandler(this.scrollPanel_MouseEnter);
       // 
       // DistributionDisplay
       // 

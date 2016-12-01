@@ -13,7 +13,7 @@ namespace NurseryAssigner.Data
     private DateTime _start;
     private DateTime _end;
     private Dictionary<long, List<Attendant>> _attendants;
-    private Dictionary<long, int> _listPos;
+    private Dictionary<long, int> _listPos = new Dictionary<long, int>();
 
     public ScheduleBuilder(DateTime start, DateTime end)
     {
@@ -28,7 +28,7 @@ namespace NurseryAssigner.Data
         return _db.AttendantSchedules.Any(s => s.Service.Date >= _start && s.Service.Date <= _end);
       }
     }
-    
+
     public void BuildSchedule()
     {
       clearSchedule();
@@ -101,8 +101,38 @@ namespace NurseryAssigner.Data
 
     private long attendantForService(long groupID, DateTime date, string service)
     {
-      var attendant = attendantFromList(groupID);
-      return attendant.ID;
+      var count = 0;
+      do
+      {
+        var attendant = attendantFromList(groupID);
+        if (isAttendantValidForService(attendant, date, service))
+          return attendant.ID;
+        count++;
+
+        if (count > 50)
+          throw new Exception("Could not find an attendant for slot.");
+      }
+      while (true);
+    }
+
+    private bool isAttendantValidForService(Attendant attendant, DateTime date, string service)
+    {
+      if (!attendant.DoesAM && service == "AM")
+        return false;
+      else if (!attendant.DoesPM && service == "PM")
+        return false;
+      else if (attendant.ExclusionStart.HasValue && attendant.ExclusionEnd.HasValue && date >= attendant.ExclusionStart.Value && date <= attendant.ExclusionEnd.Value)
+        return false;
+      else
+      {
+        var lastService = _db.AttendantSchedules.Where(a => a.AttendantID == attendant.ID).OrderByDescending(a => a.Service.Date).Select(a => a.Service).FirstOrDefault();
+        if (lastService != null && (date - lastService.Date).Days <= 14)
+          return false;
+
+        if (attendant.Gender == "M" && attendant.AgeGroupID != 1 && _db.AttendantSchedules.Any(s => s.Service.Date == date && s.Service.AMPM == service && attendant.Gender == "M" && attendant.AgeGroupID != 1))
+          return false;
+      }
+      return true;
     }
 
     private Attendant attendantFromList(long groupID)
@@ -119,8 +149,8 @@ namespace NurseryAssigner.Data
         _listPos[groupID] = 0;
       }
       else
-      _listPos[groupID]++;
-      
+        _listPos[groupID]++;
+
       return result;
     }
 
@@ -150,7 +180,6 @@ namespace NurseryAssigner.Data
         list[pos2] = swap;
       }
     }
-
-
+    
   }
 }

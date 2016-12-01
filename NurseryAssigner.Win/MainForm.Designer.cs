@@ -28,9 +28,10 @@
     /// </summary>
     private void InitializeComponent()
     {
+      this.components = new System.ComponentModel.Container();
       this.scrollPanel = new System.Windows.Forms.Panel();
       this.scheduleTable = new System.Windows.Forms.TableLayoutPanel();
-      this.attendantMenu = new System.Windows.Forms.ContextMenuStrip();
+      this.attendantMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.name1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,7 +49,10 @@
       this.startDateLabel = new System.Windows.Forms.Label();
       this.endDateLabel = new System.Windows.Forms.Label();
       this.label4 = new System.Windows.Forms.Label();
+      this.label2 = new System.Windows.Forms.Label();
       this.distributionDisplay = new NurseryAssigner.Win.DistributionDisplay();
+      this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.attendantScheduleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.scrollPanel.SuspendLayout();
       this.attendantMenu.SuspendLayout();
       this.menuStrip1.SuspendLayout();
@@ -63,8 +67,9 @@
       this.scrollPanel.Controls.Add(this.scheduleTable);
       this.scrollPanel.Location = new System.Drawing.Point(0, 47);
       this.scrollPanel.Name = "scrollPanel";
-      this.scrollPanel.Size = new System.Drawing.Size(656, 277);
+      this.scrollPanel.Size = new System.Drawing.Size(669, 277);
       this.scrollPanel.TabIndex = 2;
+      this.scrollPanel.MouseEnter += new System.EventHandler(this.scrollPanel_MouseEnter);
       // 
       // scheduleTable
       // 
@@ -82,6 +87,7 @@
       this.scheduleTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
       this.scheduleTable.Size = new System.Drawing.Size(90, 18);
       this.scheduleTable.TabIndex = 1;
+      this.scheduleTable.MouseEnter += new System.EventHandler(this.scrollPanel_MouseEnter);
       // 
       // attendantMenu
       // 
@@ -101,7 +107,8 @@
       this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.dateRangeToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.reportsToolStripMenuItem});
       this.menuStrip1.Location = new System.Drawing.Point(0, 0);
       this.menuStrip1.Name = "menuStrip1";
       this.menuStrip1.Size = new System.Drawing.Size(842, 24);
@@ -135,6 +142,7 @@
       this.buildScheduleToolStripMenuItem.Name = "buildScheduleToolStripMenuItem";
       this.buildScheduleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
       this.buildScheduleToolStripMenuItem.Text = "Build Schedule";
+      this.buildScheduleToolStripMenuItem.Click += new System.EventHandler(this.buildScheduleToolStripMenuItem_Click);
       // 
       // editToolStripMenuItem
       // 
@@ -223,6 +231,17 @@
       this.label4.TabIndex = 7;
       this.label4.Text = "to";
       // 
+      // label2
+      // 
+      this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.label2.AutoSize = true;
+      this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.label2.Location = new System.Drawing.Point(672, 31);
+      this.label2.Name = "label2";
+      this.label2.Size = new System.Drawing.Size(71, 13);
+      this.label2.TabIndex = 10;
+      this.label2.Text = "Distribution";
+      // 
       // distributionDisplay
       // 
       this.distributionDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -232,11 +251,27 @@
       this.distributionDisplay.Size = new System.Drawing.Size(166, 276);
       this.distributionDisplay.TabIndex = 9;
       // 
+      // reportsToolStripMenuItem
+      // 
+      this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.attendantScheduleToolStripMenuItem});
+      this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
+      this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+      this.reportsToolStripMenuItem.Text = "Reports";
+      // 
+      // attendantScheduleToolStripMenuItem
+      // 
+      this.attendantScheduleToolStripMenuItem.Name = "attendantScheduleToolStripMenuItem";
+      this.attendantScheduleToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+      this.attendantScheduleToolStripMenuItem.Text = "Attendant Schedule";
+      this.attendantScheduleToolStripMenuItem.Click += new System.EventHandler(this.attendantScheduleToolStripMenuItem_Click);
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(842, 324);
+      this.Controls.Add(this.label2);
       this.Controls.Add(this.distributionDisplay);
       this.Controls.Add(this.endDateLabel);
       this.Controls.Add(this.label4);
@@ -247,6 +282,7 @@
       this.MainMenuStrip = this.menuStrip1;
       this.Name = "MainForm";
       this.Text = "Nursury Assigner";
+      this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
       this.Load += new System.EventHandler(this.MainForm_Load);
       this.Shown += new System.EventHandler(this.MainForm_Shown);
       this.scrollPanel.ResumeLayout(false);
@@ -281,6 +317,9 @@
     private System.Windows.Forms.ToolStripMenuItem selectToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem buildScheduleToolStripMenuItem;
     private DistributionDisplay distributionDisplay;
+    private System.Windows.Forms.Label label2;
+    private System.Windows.Forms.ToolStripMenuItem reportsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem attendantScheduleToolStripMenuItem;
   }
 }
 
