@@ -78,6 +78,7 @@
     <Compile Include="AttendantSchedule.cs">
       <DependentUpon>NurseryAssigner.tt</DependentUpon>
     </Compile>
+    <Compile Include="AttendantSummary.cs" />
     <Compile Include="NurseryAssigner.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

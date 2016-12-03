@@ -146,6 +146,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\FamilySummaryReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\FamilySummaryReport.Designer.cs">
+      <DependentUpon>FamilySummaryReport.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AdditionalDayDialog.resx">
       <DependentUpon>AdditionalDayDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -181,6 +187,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Reports\FamilySummaryReport.resx">
+      <DependentUpon>FamilySummaryReport.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -28,13 +28,12 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.components = new System.ComponentModel.Container();
-      DevExpress.XtraReports.UI.XRSummary xrSummary2 = new DevExpress.XtraReports.UI.XRSummary();
-      DevExpress.XtraReports.UI.XRSummary xrSummary1 = new DevExpress.XtraReports.UI.XRSummary();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AttendantScheduleReport));
+      DevExpress.XtraReports.UI.XRSummary xrSummary1 = new DevExpress.XtraReports.UI.XRSummary();
+      DevExpress.XtraReports.UI.XRSummary xrSummary2 = new DevExpress.XtraReports.UI.XRSummary();
       this.Detail = new DevExpress.XtraReports.UI.DetailBand();
-      this.xrPivotGrid1 = new DevExpress.XtraReports.UI.XRPivotGrid();
-      this.objectDataSource1 = new DevExpress.DataAccess.ObjectBinding.ObjectDataSource(this.components);
+      this.schedulePivotGrid = new DevExpress.XtraReports.UI.XRPivotGrid();
+      this.objectDataSource1 = new DevExpress.DataAccess.ObjectBinding.ObjectDataSource();
       this.fieldPosition1 = new DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField();
       this.fieldServiceDate = new DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField();
       this.xrPivotGridField1 = new DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField();
@@ -42,6 +41,11 @@
       this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
       this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
       this.reportHeaderBand1 = new DevExpress.XtraReports.UI.ReportHeaderBand();
+      this.xrRichText1 = new DevExpress.XtraReports.UI.XRRichText();
+      this.xrLabel4 = new DevExpress.XtraReports.UI.XRLabel();
+      this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
+      this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
+      this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
       this.xrLabel7 = new DevExpress.XtraReports.UI.XRLabel();
       this.Title = new DevExpress.XtraReports.UI.XRControlStyle();
       this.FieldCaption = new DevExpress.XtraReports.UI.XRControlStyle();
@@ -51,11 +55,6 @@
       this.fieldServiceID1 = new DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField();
       this.fieldAttendantID1 = new DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField();
       this.fieldAttendant1 = new DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField();
-      this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
-      this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
-      this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
-      this.xrLabel4 = new DevExpress.XtraReports.UI.XRLabel();
-      this.xrRichText1 = new DevExpress.XtraReports.UI.XRRichText();
       ((System.ComponentModel.ISupportInitialize)(this.objectDataSource1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.xrRichText1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -69,26 +68,39 @@
       this.Detail.StyleName = "DataField";
       this.Detail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
       // 
-      // xrPivotGrid1
+      // schedulePivotGrid
       // 
-      this.xrPivotGrid1.Appearance.Cell.Font = new System.Drawing.Font("Arial", 9F);
-      this.xrPivotGrid1.Appearance.FieldHeader.Font = new System.Drawing.Font("Arial", 9F);
-      this.xrPivotGrid1.Appearance.FieldValue.Font = new System.Drawing.Font("Arial", 9F);
-      this.xrPivotGrid1.DataSource = this.objectDataSource1;
-      this.xrPivotGrid1.Dpi = 100F;
-      this.xrPivotGrid1.Fields.AddRange(new DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField[] {
+      this.schedulePivotGrid.Appearance.Cell.Font = new System.Drawing.Font("Tahoma", 8.25F);
+      this.schedulePivotGrid.Appearance.CustomTotalCell.Font = new System.Drawing.Font("Tahoma", 8.25F);
+      this.schedulePivotGrid.Appearance.FieldHeader.Font = new System.Drawing.Font("Tahoma", 8.25F);
+      this.schedulePivotGrid.Appearance.FieldValue.Font = new System.Drawing.Font("Tahoma", 8.25F);
+      this.schedulePivotGrid.Appearance.FieldValueGrandTotal.Font = new System.Drawing.Font("Tahoma", 8.25F);
+      this.schedulePivotGrid.Appearance.FieldValueTotal.Font = new System.Drawing.Font("Tahoma", 8.25F);
+      this.schedulePivotGrid.Appearance.GrandTotalCell.Font = new System.Drawing.Font("Tahoma", 8.25F);
+      this.schedulePivotGrid.Appearance.Lines.Font = new System.Drawing.Font("Tahoma", 8.25F);
+      this.schedulePivotGrid.Appearance.TotalCell.Font = new System.Drawing.Font("Tahoma", 8.25F);
+      this.schedulePivotGrid.DataSource = this.objectDataSource1;
+      this.schedulePivotGrid.Dpi = 100F;
+      this.schedulePivotGrid.Fields.AddRange(new DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField[] {
             this.fieldPosition1,
             this.fieldServiceDate,
             this.xrPivotGridField1,
             this.pivotGridField1});
-      this.xrPivotGrid1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 57.37502F);
-      this.xrPivotGrid1.Name = "xrPivotGrid1";
-      this.xrPivotGrid1.OptionsPrint.FilterSeparatorBarPadding = 3;
-      this.xrPivotGrid1.OptionsView.ShowColumnHeaders = false;
-      this.xrPivotGrid1.OptionsView.ShowDataHeaders = false;
-      this.xrPivotGrid1.OptionsView.ShowFilterHeaders = false;
-      this.xrPivotGrid1.OptionsView.ShowRowHeaders = false;
-      this.xrPivotGrid1.SizeF = new System.Drawing.SizeF(751F, 46.95829F);
+      this.schedulePivotGrid.LocationFloat = new DevExpress.Utils.PointFloat(0F, 57.37502F);
+      this.schedulePivotGrid.Name = "schedulePivotGrid";
+      this.schedulePivotGrid.OptionsPrint.FilterSeparatorBarPadding = 3;
+      this.schedulePivotGrid.OptionsPrint.PrintColumnHeaders = DevExpress.Utils.DefaultBoolean.False;
+      this.schedulePivotGrid.OptionsPrint.PrintDataHeaders = DevExpress.Utils.DefaultBoolean.False;
+      this.schedulePivotGrid.OptionsPrint.PrintFilterHeaders = DevExpress.Utils.DefaultBoolean.False;
+      this.schedulePivotGrid.OptionsView.ShowColumnGrandTotalHeader = false;
+      this.schedulePivotGrid.OptionsView.ShowColumnGrandTotals = false;
+      this.schedulePivotGrid.OptionsView.ShowColumnHeaders = false;
+      this.schedulePivotGrid.OptionsView.ShowColumnTotals = false;
+      this.schedulePivotGrid.OptionsView.ShowDataHeaders = false;
+      this.schedulePivotGrid.OptionsView.ShowFilterHeaders = false;
+      this.schedulePivotGrid.OptionsView.ShowRowHeaders = false;
+      this.schedulePivotGrid.OptionsView.ShowRowTotals = false;
+      this.schedulePivotGrid.SizeF = new System.Drawing.SizeF(751F, 46.95829F);
       // 
       // objectDataSource1
       // 
@@ -97,7 +109,6 @@
       // 
       // fieldPosition1
       // 
-      this.fieldPosition1.Appearance.FieldHeader.ForeColor = System.Drawing.Color.Transparent;
       this.fieldPosition1.Area = DevExpress.XtraPivotGrid.PivotArea.ColumnArea;
       this.fieldPosition1.AreaIndex = 0;
       this.fieldPosition1.FieldName = "Position";
@@ -173,10 +184,81 @@
             this.xrLabel2,
             this.xrLabel1,
             this.xrLabel7,
-            this.xrPivotGrid1});
+            this.schedulePivotGrid});
       this.reportHeaderBand1.Dpi = 100F;
       this.reportHeaderBand1.HeightF = 279.2499F;
       this.reportHeaderBand1.Name = "reportHeaderBand1";
+      // 
+      // xrRichText1
+      // 
+      this.xrRichText1.Dpi = 100F;
+      this.xrRichText1.Font = new System.Drawing.Font("Arial", 9F);
+      this.xrRichText1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 117.7917F);
+      this.xrRichText1.Name = "xrRichText1";
+      this.xrRichText1.SerializableRtfString = resources.GetString("xrRichText1.SerializableRtfString");
+      this.xrRichText1.SizeF = new System.Drawing.SizeF(727.0833F, 155.2917F);
+      this.xrRichText1.StylePriority.UseFont = false;
+      // 
+      // xrLabel4
+      // 
+      this.xrLabel4.Dpi = 100F;
+      this.xrLabel4.Font = new System.Drawing.Font("Arial", 7F);
+      this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(0F, 31.4167F);
+      this.xrLabel4.Name = "xrLabel4";
+      this.xrLabel4.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+      this.xrLabel4.SizeF = new System.Drawing.SizeF(727.0833F, 15.70834F);
+      this.xrLabel4.StylePriority.UseFont = false;
+      this.xrLabel4.Text = "If you cannot serve when assigned you will need to find your own replacement by t" +
+    "rading or finding a substitute.  Please arrive at least 20 minutes early!!";
+      // 
+      // xrLabel3
+      // 
+      this.xrLabel3.Dpi = 100F;
+      this.xrLabel3.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+      this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(383.5833F, 0F);
+      this.xrLabel3.Name = "xrLabel3";
+      this.xrLabel3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+      this.xrLabel3.SizeF = new System.Drawing.SizeF(20.83331F, 23F);
+      this.xrLabel3.StylePriority.UseFont = false;
+      this.xrLabel3.StylePriority.UseTextAlignment = false;
+      this.xrLabel3.Text = "to";
+      this.xrLabel3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+      // 
+      // xrLabel2
+      // 
+      this.xrLabel2.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Service.Date")});
+      this.xrLabel2.Dpi = 100F;
+      this.xrLabel2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+      this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(404.4167F, 0F);
+      this.xrLabel2.Name = "xrLabel2";
+      this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+      this.xrLabel2.SizeF = new System.Drawing.SizeF(127.0833F, 23F);
+      this.xrLabel2.StylePriority.UseFont = false;
+      this.xrLabel2.StylePriority.UseTextAlignment = false;
+      xrSummary1.FormatString = "{0:MMMM yyyy}";
+      xrSummary1.Func = DevExpress.XtraReports.UI.SummaryFunc.Max;
+      xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
+      this.xrLabel2.Summary = xrSummary1;
+      this.xrLabel2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
+      // 
+      // xrLabel1
+      // 
+      this.xrLabel1.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Service.Date")});
+      this.xrLabel1.Dpi = 100F;
+      this.xrLabel1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+      this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(256.5F, 0F);
+      this.xrLabel1.Name = "xrLabel1";
+      this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+      this.xrLabel1.SizeF = new System.Drawing.SizeF(127.0833F, 23F);
+      this.xrLabel1.StylePriority.UseFont = false;
+      this.xrLabel1.StylePriority.UseTextAlignment = false;
+      xrSummary2.FormatString = "{0:MMMM}";
+      xrSummary2.Func = DevExpress.XtraReports.UI.SummaryFunc.Min;
+      xrSummary2.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
+      this.xrLabel1.Summary = xrSummary2;
+      this.xrLabel1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
       // 
       // xrLabel7
       // 
@@ -257,75 +339,6 @@
       this.fieldAttendant1.FieldName = "Attendant";
       this.fieldAttendant1.Name = "fieldAttendant1";
       // 
-      // xrLabel1
-      // 
-      this.xrLabel1.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Service.Date")});
-      this.xrLabel1.Dpi = 100F;
-      this.xrLabel1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-      this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(256.5F, 0F);
-      this.xrLabel1.Name = "xrLabel1";
-      this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
-      this.xrLabel1.SizeF = new System.Drawing.SizeF(127.0833F, 23F);
-      this.xrLabel1.StylePriority.UseFont = false;
-      this.xrLabel1.StylePriority.UseTextAlignment = false;
-      xrSummary2.Func = DevExpress.XtraReports.UI.SummaryFunc.Min;
-      xrSummary2.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
-      this.xrLabel1.Summary = xrSummary2;
-      this.xrLabel1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-      // 
-      // xrLabel2
-      // 
-      this.xrLabel2.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Service.Date")});
-      this.xrLabel2.Dpi = 100F;
-      this.xrLabel2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-      this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(404.4167F, 0F);
-      this.xrLabel2.Name = "xrLabel2";
-      this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-      this.xrLabel2.SizeF = new System.Drawing.SizeF(127.0833F, 23F);
-      this.xrLabel2.StylePriority.UseFont = false;
-      this.xrLabel2.StylePriority.UseTextAlignment = false;
-      xrSummary1.Func = DevExpress.XtraReports.UI.SummaryFunc.Max;
-      xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
-      this.xrLabel2.Summary = xrSummary1;
-      this.xrLabel2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
-      // 
-      // xrLabel3
-      // 
-      this.xrLabel3.Dpi = 100F;
-      this.xrLabel3.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-      this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(383.5833F, 0F);
-      this.xrLabel3.Name = "xrLabel3";
-      this.xrLabel3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
-      this.xrLabel3.SizeF = new System.Drawing.SizeF(20.83331F, 23F);
-      this.xrLabel3.StylePriority.UseFont = false;
-      this.xrLabel3.StylePriority.UseTextAlignment = false;
-      this.xrLabel3.Text = "to";
-      this.xrLabel3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
-      // 
-      // xrLabel4
-      // 
-      this.xrLabel4.Dpi = 100F;
-      this.xrLabel4.Font = new System.Drawing.Font("Arial", 7F);
-      this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(0F, 31.4167F);
-      this.xrLabel4.Name = "xrLabel4";
-      this.xrLabel4.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
-      this.xrLabel4.SizeF = new System.Drawing.SizeF(727.0833F, 15.70834F);
-      this.xrLabel4.StylePriority.UseFont = false;
-      this.xrLabel4.Text = "If you cannot serve when assigned you will need to find your own replacement by t" +
-    "rading or finding a substitute.  Please arrive at least 20 minutes early!!";
-      // 
-      // xrRichText1
-      // 
-      this.xrRichText1.Dpi = 100F;
-      this.xrRichText1.Font = new System.Drawing.Font("Arial", 9F);
-      this.xrRichText1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 117.7917F);
-      this.xrRichText1.Name = "xrRichText1";
-      this.xrRichText1.SerializableRtfString = resources.GetString("xrRichText1.SerializableRtfString");
-      this.xrRichText1.SizeF = new System.Drawing.SizeF(727.0833F, 155.2917F);
-      this.xrRichText1.StylePriority.UseFont = false;
-      // 
       // AttendantScheduleReport
       // 
       this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -361,7 +374,7 @@
     private DevExpress.XtraReports.UI.XRControlStyle FieldCaption;
     private DevExpress.XtraReports.UI.XRControlStyle PageInfo;
     private DevExpress.XtraReports.UI.XRControlStyle DataField;
-    private DevExpress.XtraReports.UI.XRPivotGrid xrPivotGrid1;
+    private DevExpress.XtraReports.UI.XRPivotGrid schedulePivotGrid;
     private DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField fieldPosition1;
     private DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField fieldServiceDate;
     private DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField xrPivotGridField1;

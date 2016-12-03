@@ -28,10 +28,9 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.components = new System.ComponentModel.Container();
       this.scrollPanel = new System.Windows.Forms.Panel();
       this.scheduleTable = new System.Windows.Forms.TableLayoutPanel();
-      this.attendantMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+      this.attendantMenu = new System.Windows.Forms.ContextMenuStrip();
       this.name1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,6 +42,8 @@
       this.additonalDayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.ageGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.assignmentCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.attendantScheduleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.label1 = new System.Windows.Forms.Label();
@@ -50,9 +51,8 @@
       this.endDateLabel = new System.Windows.Forms.Label();
       this.label4 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
+      this.familySummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.distributionDisplay = new NurseryAssigner.Win.DistributionDisplay();
-      this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.attendantScheduleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.scrollPanel.SuspendLayout();
       this.attendantMenu.SuspendLayout();
       this.menuStrip1.SuspendLayout();
@@ -183,6 +183,22 @@
       this.assignmentCountToolStripMenuItem.Text = "Assignment Count";
       this.assignmentCountToolStripMenuItem.Click += new System.EventHandler(this.assignmentCountToolStripMenuItem_Click);
       // 
+      // reportsToolStripMenuItem
+      // 
+      this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.attendantScheduleToolStripMenuItem,
+            this.familySummaryToolStripMenuItem});
+      this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
+      this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+      this.reportsToolStripMenuItem.Text = "Reports";
+      // 
+      // attendantScheduleToolStripMenuItem
+      // 
+      this.attendantScheduleToolStripMenuItem.Name = "attendantScheduleToolStripMenuItem";
+      this.attendantScheduleToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+      this.attendantScheduleToolStripMenuItem.Text = "Attendant Schedule";
+      this.attendantScheduleToolStripMenuItem.Click += new System.EventHandler(this.attendantScheduleToolStripMenuItem_Click);
+      // 
       // newToolStripMenuItem
       // 
       this.newToolStripMenuItem.Name = "newToolStripMenuItem";
@@ -242,6 +258,13 @@
       this.label2.TabIndex = 10;
       this.label2.Text = "Distribution";
       // 
+      // familySummaryToolStripMenuItem
+      // 
+      this.familySummaryToolStripMenuItem.Name = "familySummaryToolStripMenuItem";
+      this.familySummaryToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+      this.familySummaryToolStripMenuItem.Text = "Family Summary";
+      this.familySummaryToolStripMenuItem.Click += new System.EventHandler(this.familySummaryToolStripMenuItem_Click);
+      // 
       // distributionDisplay
       // 
       this.distributionDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -250,21 +273,6 @@
       this.distributionDisplay.Name = "distributionDisplay";
       this.distributionDisplay.Size = new System.Drawing.Size(166, 276);
       this.distributionDisplay.TabIndex = 9;
-      // 
-      // reportsToolStripMenuItem
-      // 
-      this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.attendantScheduleToolStripMenuItem});
-      this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-      this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
-      this.reportsToolStripMenuItem.Text = "Reports";
-      // 
-      // attendantScheduleToolStripMenuItem
-      // 
-      this.attendantScheduleToolStripMenuItem.Name = "attendantScheduleToolStripMenuItem";
-      this.attendantScheduleToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-      this.attendantScheduleToolStripMenuItem.Text = "Attendant Schedule";
-      this.attendantScheduleToolStripMenuItem.Click += new System.EventHandler(this.attendantScheduleToolStripMenuItem_Click);
       // 
       // MainForm
       // 
@@ -320,6 +328,7 @@
     private System.Windows.Forms.Label label2;
     private System.Windows.Forms.ToolStripMenuItem reportsToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem attendantScheduleToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem familySummaryToolStripMenuItem;
   }
 }
 

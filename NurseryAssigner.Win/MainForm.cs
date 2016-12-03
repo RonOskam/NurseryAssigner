@@ -11,6 +11,7 @@ using NurseryAssigner.Data;
 using System.Reflection;
 using DevExpress.XtraReports.UI;
 using DevExpress.LookAndFeel;
+using NurseryAssigner.Win.Reports;
 
 namespace NurseryAssigner.Win
 {
@@ -336,5 +337,16 @@ namespace NurseryAssigner.Win
       }
     }
 
+    private void familySummaryToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      var source = AttendantSummary.Load(Properties.Settings.Default.StartDate, Properties.Settings.Default.EndDate);
+      var report = new FamilySummaryReport();
+      report.DataSource = source;
+
+      using (ReportPrintTool printTool = new ReportPrintTool(report))
+      {
+        printTool.ShowRibbonPreviewDialog();
+      }
+    }
   }
 }
