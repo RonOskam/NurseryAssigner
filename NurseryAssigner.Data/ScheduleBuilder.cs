@@ -32,7 +32,10 @@ namespace NurseryAssigner.Data
     public void BuildSchedule()
     {
       clearSchedule();
+      _db.SaveChanges();
+
       loadServices();
+      _db.SaveChanges();
       loadAttendants();
 
       var list = _db.Services.Where(d => d.Date >= _start && d.Date <= _end).ToList();
@@ -54,7 +57,7 @@ namespace NurseryAssigner.Data
     private void loadServices()
     {
       //add Sundays
-      for (var date = _start; _start <= _end; _start = _start.AddDays(1))
+      for (var date = _start; date <= _end; date = date.AddDays(1))
       {
         if (date.DayOfWeek == DayOfWeek.Sunday)
         {
@@ -82,7 +85,7 @@ namespace NurseryAssigner.Data
 
     private void fillService(Service service)
     {
-      var counts = _db.AssignmentCounts.Where(c => c.AMPM == service.AMPM).ToList();
+      var counts = _db.AssignmentCounts.Where(c => c.AMPM == service.AMPM).OrderBy(c => c.AgeGroupID).ToList();
       long pos = 1;
       foreach (var item in counts)
       {
@@ -97,6 +100,7 @@ namespace NurseryAssigner.Data
           pos++;
         }
       }
+      _db.SaveChanges();
     }
 
     private long attendantForService(long groupID, DateTime date, string service)

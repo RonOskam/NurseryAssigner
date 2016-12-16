@@ -17,15 +17,23 @@ namespace NurseryAssigner.Win
 {
   public partial class MainForm : Form
   {
-    public MainForm()
-    {
-      InitializeComponent();
-    }
-
     private readonly Color _selectedColor = Color.HotPink;
     private NurseryAssignerEntities _db = new NurseryAssignerEntities();
     private Label _selectedItem = null;
 
+    public MainForm()
+    {
+      InitializeComponent();
+
+      distributionDisplay.AttendantSelected += DistributionDisplay_AttendantSelected;
+    }
+
+    private void DistributionDisplay_AttendantSelected(object sender, EventArgs e)
+    {
+      if (distributionDisplay.SelectedAttendant.HasValue)
+        setCellColors(distributionDisplay.SelectedAttendant.Value);
+    }
+    
     private bool loadByRange(DateTime startDate, DateTime endDate)
     {
       startDateLabel.Text = startDate.ToShortDateString();
@@ -39,6 +47,8 @@ namespace NurseryAssigner.Win
       else
       {
         scheduleTable.SuspendLayout();
+        scheduleTable.Controls.Clear();
+        scheduleTable.RowCount = 1;
         int row = 0;
         var font = new Font(scheduleTable.Font, FontStyle.Bold);
         foreach (var day in days)
@@ -176,6 +186,7 @@ namespace NurseryAssigner.Win
         _selectedItem = label;
         setCellColors(currentSched.AttendantID);
         label.BackColor = _selectedColor;
+        distributionDisplay.SelectAttendant(currentSched.AttendantID);
 
         label.DoDragDrop(label, DragDropEffects.Move);
       }
@@ -298,6 +309,7 @@ namespace NurseryAssigner.Win
           {
             var builder = new ScheduleBuilder(startDate, endDate);
             builder.BuildSchedule();
+            loadByRange(startDate, endDate);
           }
         }
       }
@@ -321,6 +333,7 @@ namespace NurseryAssigner.Win
         return;
 
       builder.BuildSchedule();
+      loadByRange(Properties.Settings.Default.StartDate, Properties.Settings.Default.EndDate);
     }
 
     private void attendantScheduleToolStripMenuItem_Click(object sender, EventArgs e)

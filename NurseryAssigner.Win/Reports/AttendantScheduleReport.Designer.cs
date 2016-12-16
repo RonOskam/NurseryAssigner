@@ -86,7 +86,7 @@
             this.fieldServiceDate,
             this.xrPivotGridField1,
             this.pivotGridField1});
-      this.schedulePivotGrid.LocationFloat = new DevExpress.Utils.PointFloat(0F, 57.37502F);
+      this.schedulePivotGrid.LocationFloat = new DevExpress.Utils.PointFloat(0F, 43.37502F);
       this.schedulePivotGrid.Name = "schedulePivotGrid";
       this.schedulePivotGrid.OptionsPrint.FilterSeparatorBarPadding = 3;
       this.schedulePivotGrid.OptionsPrint.PrintColumnHeaders = DevExpress.Utils.DefaultBoolean.False;
@@ -101,6 +101,7 @@
       this.schedulePivotGrid.OptionsView.ShowRowHeaders = false;
       this.schedulePivotGrid.OptionsView.ShowRowTotals = false;
       this.schedulePivotGrid.SizeF = new System.Drawing.SizeF(751F, 46.95829F);
+      this.schedulePivotGrid.PrintCell += new System.EventHandler<DevExpress.XtraReports.UI.PivotGrid.CustomExportCellEventArgs>(this.schedulePivotGrid_PrintCell);
       // 
       // objectDataSource1
       // 
@@ -109,6 +110,11 @@
       // 
       // fieldPosition1
       // 
+      this.fieldPosition1.Appearance.FieldValue.BackColor = System.Drawing.Color.Transparent;
+      this.fieldPosition1.Appearance.FieldValue.BorderColor = System.Drawing.Color.Transparent;
+      this.fieldPosition1.Appearance.FieldValue.BorderWidth = 0F;
+      this.fieldPosition1.Appearance.FieldValue.Font = new System.Drawing.Font("Times New Roman", 4F);
+      this.fieldPosition1.Appearance.FieldValue.ForeColor = System.Drawing.Color.Transparent;
       this.fieldPosition1.Area = DevExpress.XtraPivotGrid.PivotArea.ColumnArea;
       this.fieldPosition1.AreaIndex = 0;
       this.fieldPosition1.FieldName = "Position";
@@ -186,14 +192,14 @@
             this.xrLabel7,
             this.schedulePivotGrid});
       this.reportHeaderBand1.Dpi = 100F;
-      this.reportHeaderBand1.HeightF = 279.2499F;
+      this.reportHeaderBand1.HeightF = 256.3333F;
       this.reportHeaderBand1.Name = "reportHeaderBand1";
       // 
       // xrRichText1
       // 
       this.xrRichText1.Dpi = 100F;
       this.xrRichText1.Font = new System.Drawing.Font("Arial", 9F);
-      this.xrRichText1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 117.7917F);
+      this.xrRichText1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 97.7917F);
       this.xrRichText1.Name = "xrRichText1";
       this.xrRichText1.SerializableRtfString = resources.GetString("xrRichText1.SerializableRtfString");
       this.xrRichText1.SizeF = new System.Drawing.SizeF(727.0833F, 155.2917F);
@@ -203,7 +209,7 @@
       // 
       this.xrLabel4.Dpi = 100F;
       this.xrLabel4.Font = new System.Drawing.Font("Arial", 7F);
-      this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(0F, 31.4167F);
+      this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(0F, 27.4167F);
       this.xrLabel4.Name = "xrLabel4";
       this.xrLabel4.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
       this.xrLabel4.SizeF = new System.Drawing.SizeF(727.0833F, 15.70834F);

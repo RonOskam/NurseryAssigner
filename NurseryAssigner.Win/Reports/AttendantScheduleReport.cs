@@ -12,6 +12,13 @@ namespace NurseryAssigner.Win
     {
       InitializeComponent();
     }
-
+    
+    private void schedulePivotGrid_PrintCell(object sender, DevExpress.XtraReports.UI.PivotGrid.CustomExportCellEventArgs e)
+    {
+      if (e.RowIndex % 2 == 0)
+        e.Appearance.BackColor = Color.White;
+      else
+        e.Appearance.BackColor = Color.WhiteSmoke;
+    }
   }
 }
