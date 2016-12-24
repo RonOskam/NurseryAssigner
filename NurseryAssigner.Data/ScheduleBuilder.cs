@@ -38,7 +38,7 @@ namespace NurseryAssigner.Data
       _db.SaveChanges();
       loadAttendants();
 
-      var list = _db.Services.Where(d => d.Date >= _start && d.Date <= _end).ToList();
+      var list = _db.Services.Where(d => d.Date >= _start && d.Date <= _end).OrderBy(d => d.Date).ThenBy(d => d.AMPM).ToList();
       foreach (var item in list)
         fillService(item);
 
@@ -69,7 +69,10 @@ namespace NurseryAssigner.Data
       //add additional days
       var list = _db.AdditionalServices.Where(d => d.Date >= _start && d.Date <= _end).ToList();
       foreach (var item in list)
-        insertService(item.Date, item.AMPM);
+      {
+        if (item.Date.DayOfWeek != DayOfWeek.Sunday)
+          insertService(item.Date, item.AMPM);
+      }
     }
 
     private void insertService(DateTime day, string service)

@@ -6,7 +6,7 @@ using DevExpress.XtraReports.UI;
 
 namespace NurseryAssigner.Win
 {
-  public partial class AttendantScheduleReport : DevExpress.XtraReports.UI.XtraReport
+  public partial class AttendantScheduleReport : XtraReport
   {
     public AttendantScheduleReport()
     {
@@ -18,7 +18,8 @@ namespace NurseryAssigner.Win
       if (e.RowIndex % 2 == 0)
         e.Appearance.BackColor = Color.White;
       else
-        e.Appearance.BackColor = Color.WhiteSmoke;
+        e.Appearance.BackColor = Color.LightGray;
     }
+
   }
 }

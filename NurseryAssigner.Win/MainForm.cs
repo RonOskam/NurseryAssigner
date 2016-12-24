@@ -12,13 +12,18 @@ using System.Reflection;
 using DevExpress.XtraReports.UI;
 using DevExpress.LookAndFeel;
 using NurseryAssigner.Win.Reports;
+using System.Data.Entity.Core.EntityClient;
+using System.Data.Entity;
+using System.Data.SQLite;
+using System.Data.SQLite.EF6;
+using System.Data.Entity.Core.Common;
 
 namespace NurseryAssigner.Win
 {
   public partial class MainForm : Form
   {
     private readonly Color _selectedColor = Color.HotPink;
-    private NurseryAssignerEntities _db = new NurseryAssignerEntities();
+    private NurseryAssignerEntities _db = null;
     private Label _selectedItem = null;
 
     public MainForm()
@@ -33,7 +38,12 @@ namespace NurseryAssigner.Win
       if (distributionDisplay.SelectedAttendant.HasValue)
         setCellColors(distributionDisplay.SelectedAttendant.Value);
     }
-    
+
+    private bool loadByRange()
+    {
+      return loadByRange(Properties.Settings.Default.StartDate, Properties.Settings.Default.EndDate);
+    }
+
     private bool loadByRange(DateTime startDate, DateTime endDate)
     {
       startDateLabel.Text = startDate.ToShortDateString();
@@ -79,27 +89,51 @@ namespace NurseryAssigner.Win
 
     private void MainForm_Load(object sender, EventArgs e)
     {
-      var count = Attendant.MaxAttendantsPerDay;
-      for (int x = 1; x <= count; x++)
-      {
-        var style = new ColumnStyle(SizeType.Absolute, 125);
-        scheduleTable.ColumnStyles.Add(style);
-        scheduleTable.ColumnCount++;
-      }
-
-      if (Properties.Settings.Default.MainFormHeight != 0)
-      {
-        Height = Properties.Settings.Default.MainFormHeight;
-        Width = Properties.Settings.Default.MainFormWidth;
-      }
-    }
     
+    }
+
+    private bool setDBConnectionAndLoad()
+    {
+      var file = Properties.Settings.Default.FileLocation;
+      if (string.IsNullOrWhiteSpace(file))
+      {
+        if (!openDatabaseFile())
+          return false;
+      }
+      if (_db != null)
+        _db.Database.Connection.Close();
+
+      _db = new NurseryAssignerEntities(file);
+
+      loadByRange();
+      return true;
+    }
+
     private void MainForm_Shown(object sender, EventArgs e)
     {
-      if (Properties.Settings.Default.StartDate == DateTime.MinValue)
-        selectToolStripMenuItem_Click(null, EventArgs.Empty);
-      else
-        loadByRange(Properties.Settings.Default.StartDate, Properties.Settings.Default.EndDate);
+      if (setDBConnectionAndLoad())
+      {
+        var count = Attendant.MaxAttendantsPerDay;
+        for (int x = 1; x <= count; x++)
+        {
+          var style = new ColumnStyle(SizeType.Absolute, 125);
+          scheduleTable.ColumnStyles.Add(style);
+          scheduleTable.ColumnCount++;
+        }
+
+        if (Properties.Settings.Default.MainFormHeight != 0)
+        {
+          Height = Properties.Settings.Default.MainFormHeight;
+          Width = Properties.Settings.Default.MainFormWidth;
+          Left = Properties.Settings.Default.MainFormX;
+          Top = Properties.Settings.Default.MainFormY;
+        }
+
+        if (Properties.Settings.Default.StartDate == DateTime.MinValue)
+          selectToolStripMenuItem_Click(null, EventArgs.Empty);
+        else
+          loadByRange();
+      }
     }
 
     private void addLabel(string text, int column, int row, Font font = null)
@@ -116,10 +150,10 @@ namespace NurseryAssigner.Win
 
     private void addPerson(AttendantSchedule schedule, int column, int row)
     {
-       var label = new Label();
+      var label = new Label();
       label.Text = schedule.Attendant.FullName;
       label.Tag = schedule;
-      
+
       label.Margin = new Padding(0);
       label.TextAlign = ContentAlignment.MiddleLeft;
       label.AllowDrop = true;
@@ -128,7 +162,7 @@ namespace NurseryAssigner.Win
       label.DragEnter += Label_DragEnter;
       label.DragLeave += Label_DragLeave;
       label.DragDrop += Label_DragDrop;
-      
+
       scheduleTable.Controls.Add(label, column, row);
     }
 
@@ -179,7 +213,7 @@ namespace NurseryAssigner.Win
     private void Label_MouseDown(object sender, MouseEventArgs e)
     {
       var label = (Label)sender;
-   
+
       var currentSched = (AttendantSchedule)(((Label)sender).Tag);
       if (e.Button == MouseButtons.Left)
       {
@@ -322,8 +356,11 @@ namespace NurseryAssigner.Win
 
     private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
     {
-      //Properties.Settings.Default.MainFormHeight = Height;
-      //Properties.Settings.Default.MainFormWidth = Width;
+      Properties.Settings.Default.MainFormHeight = Height;
+      Properties.Settings.Default.MainFormWidth = Width;
+      Properties.Settings.Default.MainFormX = Left;
+      Properties.Settings.Default.MainFormY = Top;
+      Properties.Settings.Default.Save();
     }
 
     private void buildScheduleToolStripMenuItem_Click(object sender, EventArgs e)
@@ -333,7 +370,7 @@ namespace NurseryAssigner.Win
         return;
 
       builder.BuildSchedule();
-      loadByRange(Properties.Settings.Default.StartDate, Properties.Settings.Default.EndDate);
+      loadByRange();
     }
 
     private void attendantScheduleToolStripMenuItem_Click(object sender, EventArgs e)
@@ -361,5 +398,41 @@ namespace NurseryAssigner.Win
         printTool.ShowRibbonPreviewDialog();
       }
     }
+
+    private void attendantListToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      var source = _db.Attendants.Where(a => !a.IsInactive).OrderBy(a => a.AgeGroupID).ThenBy(a => a.LastName).ThenBy(a => a.FirstName).ToList();
+      var report = new AttendantListReport();
+      report.DataSource = source;
+
+      using (ReportPrintTool printTool = new ReportPrintTool(report))
+      {
+        printTool.ShowRibbonPreviewDialog();
+      }
+    }
+
+    private void openToolStripMenuItem1_Click(object sender, EventArgs e)
+    {
+      if (openDatabaseFile())
+        setDBConnectionAndLoad();
+    }
+
+    private bool openDatabaseFile()
+    {
+      var dialog = new OpenFileDialog();
+      dialog.DefaultExt = "sqlite";
+      dialog.Title = "Select Nursury Assigner Data File";
+      dialog.Filter = "SQLite File|*.sqlite";
+      if (dialog.ShowDialog() == DialogResult.OK)
+      {
+        Properties.Settings.Default.FileLocation = dialog.FileName;
+        Properties.Settings.Default.Save();
+        return true;
+      }
+      else
+        return false;
+    }
+
   }
+
 }

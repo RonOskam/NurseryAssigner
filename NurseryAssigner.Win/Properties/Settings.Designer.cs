@@ -60,6 +60,18 @@ namespace NurseryAssigner.Win.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MainFormHeight {
+            get {
+                return ((int)(this["MainFormHeight"]));
+            }
+            set {
+                this["MainFormHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int MainFormWidth {
             get {
                 return ((int)(this["MainFormWidth"]));
@@ -72,12 +84,24 @@ namespace NurseryAssigner.Win.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int MainFormHeight {
+        public int MainFormX {
             get {
-                return ((int)(this["MainFormHeight"]));
+                return ((int)(this["MainFormX"]));
             }
             set {
-                this["MainFormHeight"] = value;
+                this["MainFormX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MainFormY {
+            get {
+                return ((int)(this["MainFormY"]));
+            }
+            set {
+                this["MainFormY"] = value;
             }
         }
     }

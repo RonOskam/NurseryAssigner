@@ -9,27 +9,39 @@
 
 namespace NurseryAssigner.Data
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-    
-    public partial class NurseryAssignerEntities : DbContext
+  using System;
+  using System.Data.Entity;
+  using System.Data.Entity.Core.EntityClient;
+  using System.Data.Entity.Infrastructure;
+  using System.Data.SQLite;
+
+  public partial class NurseryAssignerEntities : DbContext
+  {
+    public NurseryAssignerEntities()
+        : base("name=NurseryAssignerEntities")
     {
-        public NurseryAssignerEntities()
-            : base("name=NurseryAssignerEntities")
-        {
-        }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-    
-        public virtual DbSet<AgeGroup> AgeGroups { get; set; }
-        public virtual DbSet<Attendant> Attendants { get; set; }
-        public virtual DbSet<AdditionalService> AdditionalServices { get; set; }
-        public virtual DbSet<AssignmentCount> AssignmentCounts { get; set; }
-        public virtual DbSet<AttendantSchedule> AttendantSchedules { get; set; }
-        public virtual DbSet<Service> Services { get; set; }
     }
+
+    public NurseryAssignerEntities(string fileName)
+      : base(new EntityConnectionStringBuilder()
+      {
+        Metadata = "res://*/NurseryAssigner.csdl|res://*/NurseryAssigner.ssdl|res://*/NurseryAssigner.msl",
+        Provider = "System.Data.SQLite",
+        ProviderConnectionString = $"data source={fileName};DateTimeFormat=InvariantCulture;foreign keys=true"
+      }.ConnectionString)
+    {
+    }
+
+    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    {
+      throw new UnintentionalCodeFirstException();
+    }
+
+    public virtual DbSet<AgeGroup> AgeGroups { get; set; }
+    public virtual DbSet<Attendant> Attendants { get; set; }
+    public virtual DbSet<AdditionalService> AdditionalServices { get; set; }
+    public virtual DbSet<AssignmentCount> AssignmentCounts { get; set; }
+    public virtual DbSet<AttendantSchedule> AttendantSchedules { get; set; }
+    public virtual DbSet<Service> Services { get; set; }
+  }
 }

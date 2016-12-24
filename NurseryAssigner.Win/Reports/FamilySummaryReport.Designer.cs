@@ -34,22 +34,24 @@
       this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
       this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
       this.groupHeaderBand1 = new DevExpress.XtraReports.UI.GroupHeaderBand();
+      this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
       this.groupHeaderBand2 = new DevExpress.XtraReports.UI.GroupHeaderBand();
       this.xrLabel9 = new DevExpress.XtraReports.UI.XRLabel();
       this.Title = new DevExpress.XtraReports.UI.XRControlStyle();
       this.FieldCaption = new DevExpress.XtraReports.UI.XRControlStyle();
       this.PageInfo = new DevExpress.XtraReports.UI.XRControlStyle();
       this.DataField = new DevExpress.XtraReports.UI.XRControlStyle();
-      this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
-      this.objectDataSource1 = new DevExpress.DataAccess.ObjectBinding.ObjectDataSource();
       this.GroupFooter1 = new DevExpress.XtraReports.UI.GroupFooterBand();
       this.xrPanel1 = new DevExpress.XtraReports.UI.XRPanel();
+      this.objectDataSource1 = new DevExpress.DataAccess.ObjectBinding.ObjectDataSource();
+      this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
       ((System.ComponentModel.ISupportInitialize)(this.objectDataSource1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
       // 
       // Detail
       // 
       this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel2,
             this.xrLabel8,
             this.xrLabel7});
       this.Detail.Dpi = 100F;
@@ -73,7 +75,7 @@
       this.xrLabel8.LocationFloat = new DevExpress.Utils.PointFloat(124.3773F, 0F);
       this.xrLabel8.Name = "xrLabel8";
       this.xrLabel8.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-      this.xrLabel8.SizeF = new System.Drawing.SizeF(89.09238F, 18F);
+      this.xrLabel8.SizeF = new System.Drawing.SizeF(61.23644F, 18F);
       this.xrLabel8.StylePriority.UseFont = false;
       this.xrLabel8.Text = "xrLabel8";
       // 
@@ -121,6 +123,17 @@
       this.groupHeaderBand1.Name = "groupHeaderBand1";
       this.groupHeaderBand1.StyleName = "DataField";
       this.groupHeaderBand1.StylePriority.UseFont = false;
+      // 
+      // xrLabel1
+      // 
+      this.xrLabel1.Dpi = 100F;
+      this.xrLabel1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+      this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+      this.xrLabel1.Name = "xrLabel1";
+      this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+      this.xrLabel1.SizeF = new System.Drawing.SizeF(515.6971F, 23F);
+      this.xrLabel1.StylePriority.UseFont = false;
+      this.xrLabel1.Text = "Here are the nursery schedule dates for your family";
       // 
       // groupHeaderBand2
       // 
@@ -186,22 +199,6 @@
       this.DataField.Name = "DataField";
       this.DataField.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
       // 
-      // xrLabel1
-      // 
-      this.xrLabel1.Dpi = 100F;
-      this.xrLabel1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
-      this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
-      this.xrLabel1.Name = "xrLabel1";
-      this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-      this.xrLabel1.SizeF = new System.Drawing.SizeF(515.6971F, 23F);
-      this.xrLabel1.StylePriority.UseFont = false;
-      this.xrLabel1.Text = "Here are the nursery schedule dates for your family";
-      // 
-      // objectDataSource1
-      // 
-      this.objectDataSource1.DataSource = typeof(NurseryAssigner.Data.AttendantSummary);
-      this.objectDataSource1.Name = "objectDataSource1";
-      // 
       // GroupFooter1
       // 
       this.GroupFooter1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
@@ -217,6 +214,23 @@
       this.xrPanel1.LocationFloat = new DevExpress.Utils.PointFloat(179.1667F, 2.083333F);
       this.xrPanel1.Name = "xrPanel1";
       this.xrPanel1.SizeF = new System.Drawing.SizeF(300F, 25F);
+      // 
+      // objectDataSource1
+      // 
+      this.objectDataSource1.DataSource = typeof(NurseryAssigner.Data.AttendantSummary);
+      this.objectDataSource1.Name = "objectDataSource1";
+      // 
+      // xrLabel2
+      // 
+      this.xrLabel2.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "SpecialDay")});
+      this.xrLabel2.Dpi = 100F;
+      this.xrLabel2.Font = new System.Drawing.Font("Arial", 9F);
+      this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(185.6138F, 0F);
+      this.xrLabel2.Name = "xrLabel2";
+      this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+      this.xrLabel2.SizeF = new System.Drawing.SizeF(89.09238F, 18F);
+      this.xrLabel2.StylePriority.UseFont = false;
       // 
       // FamilySummaryReport
       // 
@@ -259,5 +273,6 @@
     private DevExpress.XtraReports.UI.XRLabel xrLabel1;
     private DevExpress.XtraReports.UI.GroupFooterBand GroupFooter1;
     private DevExpress.XtraReports.UI.XRPanel xrPanel1;
+    private DevExpress.XtraReports.UI.XRLabel xrLabel2;
   }
 }
