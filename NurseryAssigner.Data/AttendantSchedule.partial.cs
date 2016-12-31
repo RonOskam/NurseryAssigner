@@ -25,18 +25,18 @@ namespace NurseryAssigner.Data
       }
     }
 
-    public string DayDescription
-    {
-      get
-      {
-        var result = Service.Date.ToShortDateString();
-        var db = new NurseryAssignerEntities();
-        var additional = db.AdditionalServices.ToList().FirstOrDefault(s => s.Date.ToShortDateString() == result);
-        if (additional != null)
-          result += "\r\n" + additional.Description;
+    //public string DayDescription
+    //{
+    //  get
+    //  {
+    //    var result = Service.Date.ToShortDateString();
+    //    var db = new NurseryAssignerEntities();
+    //    var additional = db.AdditionalServices.ToList().FirstOrDefault(s => s.Date.ToShortDateString() == result);
+    //    if (additional != null)
+    //      result += "\r\n" + additional.Description;
 
-        return result; 
-      }
-    }
+    //    return result; 
+    //  }
+    //}
   }
 }

@@ -18,6 +18,7 @@ namespace NurseryAssigner.Win
     {
       InitializeComponent();
 
+      _db = MainForm.DatabaseConnection();
       _db.Attendants.LoadAsync().ContinueWith(loadTask =>
       {
         // Bind data to control when loading complete
@@ -25,7 +26,7 @@ namespace NurseryAssigner.Win
       }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
-    private NurseryAssignerEntities _db = new NurseryAssignerEntities();
+    private NurseryAssignerEntities _db = null;
 
     private void AttendantDialog_Load(object sender, EventArgs e)
     {

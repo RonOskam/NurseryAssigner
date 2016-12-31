@@ -67,7 +67,7 @@ namespace NurseryAssigner.Win
           scheduleTable.RowStyles.Add(newRowStyle);
           addLabel(day.Date.ToString("MMM d"), 0, row, font);
           addLabel(day.AMPM, 1, row, font);
-          for (int x = 1; x <= Attendant.MaxAttendantsPerDay; x++)
+          for (int x = 1; x <= Attendant.MaxAttendantsPerDay(_db); x++)
           {
             var schedule = day.AttendantSchedules.FirstOrDefault(s => s.Position == x);
             if (schedule != null)
@@ -92,6 +92,12 @@ namespace NurseryAssigner.Win
     
     }
 
+    public static NurseryAssignerEntities DatabaseConnection()
+    {
+      var file = Properties.Settings.Default.FileLocation;
+      return new NurseryAssignerEntities(file);
+    }
+
     private bool setDBConnectionAndLoad()
     {
       var file = Properties.Settings.Default.FileLocation;
@@ -104,6 +110,7 @@ namespace NurseryAssigner.Win
         _db.Database.Connection.Close();
 
       _db = new NurseryAssignerEntities(file);
+      this.Text = "Nursery Assigner - " + System.IO.Path.GetFileName(file);
 
       loadByRange();
       return true;
@@ -113,7 +120,7 @@ namespace NurseryAssigner.Win
     {
       if (setDBConnectionAndLoad())
       {
-        var count = Attendant.MaxAttendantsPerDay;
+        var count = Attendant.MaxAttendantsPerDay(_db);
         for (int x = 1; x <= count; x++)
         {
           var style = new ColumnStyle(SizeType.Absolute, 125);
@@ -178,8 +185,7 @@ namespace NurseryAssigner.Win
         source.Text = destination.Text;
         destination.Text = swap;
 
-        var destSched = (AttendantSchedule)destination.Tag;
-        setCellColors(destSched.AttendantID);
+        var destSched = (AttendantSchedule)destination.Tag;      
         destination.BackColor = _selectedColor;
 
         var sourceSched = (AttendantSchedule)source.Tag;
@@ -189,6 +195,8 @@ namespace NurseryAssigner.Win
 
         _db.SaveChanges();
         distributionDisplay.UpdateDisplay();
+
+        setCellColors(destSched.AttendantID);
       }
       else
         destination.BorderStyle = BorderStyle.None;
@@ -341,7 +349,7 @@ namespace NurseryAssigner.Win
         {
           if (MessageBox.Show("There is nothing scheduled for this range, do you want create a schedule for it?", Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.Yes)
           {
-            var builder = new ScheduleBuilder(startDate, endDate);
+            var builder = new ScheduleBuilder(_db, startDate, endDate);
             builder.BuildSchedule();
             loadByRange(startDate, endDate);
           }
@@ -365,7 +373,7 @@ namespace NurseryAssigner.Win
 
     private void buildScheduleToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      var builder = new ScheduleBuilder(Properties.Settings.Default.StartDate, Properties.Settings.Default.EndDate);
+      var builder = new ScheduleBuilder(_db, Properties.Settings.Default.StartDate, Properties.Settings.Default.EndDate);
       if (builder.BeenScheduled && MessageBox.Show("Are you sure you want to overwrite the schedule for this date range?", Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
         return;
 
@@ -389,7 +397,7 @@ namespace NurseryAssigner.Win
 
     private void familySummaryToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      var source = AttendantSummary.Load(Properties.Settings.Default.StartDate, Properties.Settings.Default.EndDate);
+      var source = AttendantSummary.Load(_db, Properties.Settings.Default.StartDate, Properties.Settings.Default.EndDate);
       var report = new FamilySummaryReport();
       report.DataSource = source;
 

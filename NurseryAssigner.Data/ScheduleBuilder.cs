@@ -9,14 +9,15 @@ namespace NurseryAssigner.Data
 
   public class ScheduleBuilder
   {
-    private NurseryAssignerEntities _db = new NurseryAssignerEntities();
+    private NurseryAssignerEntities _db;
     private DateTime _start;
     private DateTime _end;
     private Dictionary<long, List<Attendant>> _attendants;
     private Dictionary<long, int> _listPos = new Dictionary<long, int>();
 
-    public ScheduleBuilder(DateTime start, DateTime end)
+    public ScheduleBuilder(NurseryAssignerEntities db, DateTime start, DateTime end)
     {
+      _db = db;
       _start = start;
       _end = end;
     }

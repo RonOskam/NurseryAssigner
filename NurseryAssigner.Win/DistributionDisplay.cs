@@ -42,7 +42,7 @@ namespace NurseryAssigner.Win
 
     public void UpdateDisplay()
     {
-      var db = new NurseryAssignerEntities();
+      var db = MainForm.DatabaseConnection();
 
       var font = new Font(distributionTable.Font, FontStyle.Bold);
       var row = 0;

@@ -14,22 +14,26 @@ namespace NurseryAssigner.Data
     public DateTime Day { get; set; }
     public string AMPM { get; set; }
 
+    NurseryAssignerEntities _db;
+
+    public AttendantSummary(NurseryAssignerEntities db)
+    {
+      _db = db;
+    }
+
     public string SpecialDay
     {
       get
       {
-        var db = new NurseryAssignerEntities();
-        var special = db.AdditionalServices.FirstOrDefault(s => s.Date == Day && s.AMPM == AMPM);
+        var special = _db.AdditionalServices.FirstOrDefault(s => s.Date == Day && s.AMPM == AMPM);
         return special?.Description;
       }
     }
 
-    public static List<AttendantSummary> Load(DateTime startDate, DateTime endDate)
+    public static List<AttendantSummary> Load(NurseryAssignerEntities db, DateTime startDate, DateTime endDate)
     {
-      var db = new NurseryAssignerEntities();
-
-      var schedule = db.AttendantSchedules.Include("Attendant").Include("Service").Where(s => s.Service.Date >= startDate && s.Service.Date <= endDate).OrderBy(s => s.AttendantID).ToList()
-        .Select(s => new AttendantSummary
+       var schedule = db.AttendantSchedules.Include("Attendant").Include("Service").Where(s => s.Service.Date >= startDate && s.Service.Date <= endDate).OrderBy(s => s.AttendantID).ToList()
+        .Select(s => new AttendantSummary(db)
         {
           GroupID = (s.AttendantID == 179 ? "BoermanM" : s.Attendant.LastName),
           Name = s.Attendant.FirstName + " " + s.Attendant.LastName,

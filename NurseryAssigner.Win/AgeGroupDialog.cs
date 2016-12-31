@@ -26,7 +26,7 @@ namespace NurseryAssigner.Win
       }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
-    private NurseryAssignerEntities _db = new NurseryAssignerEntities();
+    private NurseryAssignerEntities _db = MainForm.DatabaseConnection();
     
     private void okButton_Click(object sender, EventArgs e)
     {

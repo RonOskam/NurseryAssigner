@@ -24,14 +24,10 @@ namespace NurseryAssigner.Data
       }
     }
 
-    public static long MaxAttendantsPerDay
+    public static long MaxAttendantsPerDay(NurseryAssignerEntities db)
     {
-      get
-      {
-        var db = new NurseryAssignerEntities();
         long count = db.AssignmentCounts.GroupBy(c => c.AMPM).Select(g => g.Sum(v => v.Amount)).Max();
-        return Convert.ToInt32(count);
-      }
+        return Convert.ToInt32(count);  
     }
 
   }
