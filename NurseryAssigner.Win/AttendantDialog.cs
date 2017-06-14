@@ -18,27 +18,30 @@ namespace NurseryAssigner.Win
     {
       InitializeComponent();
 
-      _db = MainForm.DatabaseConnection();
       _db.Attendants.LoadAsync().ContinueWith(loadTask =>
       {
         // Bind data to control when loading complete
-        gridControl.DataSource = _db.Attendants.Local.ToBindingList().OrderBy(a => a.LastName).ThenBy(a => a.FirstName);
+        gridControl.DataSource = _db.Attendants.Local.ToBindingList();       
       }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
-    private NurseryAssignerEntities _db = null;
+    private NurseryAssignerEntities _db = MainForm.DatabaseConnection();
 
     private void AttendantDialog_Load(object sender, EventArgs e)
     {
       var list = new List<string>();
       list.Add("M");
       list.Add("F");
+      genderLookUpEdit.ShowHeader = false;
+      genderLookUpEdit.ShowFooter = false;
       genderLookUpEdit.DataSource = list;
 
       ageGroupLookUpEdit.DataSource = _db.AgeGroups.ToList();
       ageGroupLookUpEdit.DisplayMember = "Name";
       ageGroupLookUpEdit.ValueMember = "ID";
       ageGroupLookUpEdit.Columns.Add(new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name"));
+
+      gridView.SortInfo.Add(lastNameColumn, DevExpress.Data.ColumnSortOrder.Ascending);
     }
 
     private void okButton_Click(object sender, EventArgs e)
@@ -56,11 +59,11 @@ namespace NurseryAssigner.Win
 
     private void addButton_Click(object sender, EventArgs e)
     {
-      var record = new AssignmentCount();
-      record.AMPM = "AM";
-      record.AgeGroupID = 1;
+      //var record = new Attendant();
+      //record.AgeGroupID = 1;
 
-      _db.AssignmentCounts.Add(record);
+      //_db.Attendants.Add(record);
+      gridView.FocusedRowHandle = DevExpress.XtraGrid.GridControl.NewItemRowHandle;
     }
 
     private void deleteButton_Click(object sender, EventArgs e)

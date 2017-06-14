@@ -34,7 +34,7 @@
       this.button1 = new System.Windows.Forms.Button();
       this.gridControl = new DevExpress.XtraGrid.GridControl();
       this.gridView = new DevExpress.XtraGrid.Views.Grid.GridView();
-      this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+      this.lastNameColumn = new DevExpress.XtraGrid.Columns.GridColumn();
       this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
       this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
       this.genderLookUpEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
@@ -124,7 +124,7 @@
       // gridView
       // 
       this.gridView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn1,
+            this.lastNameColumn,
             this.gridColumn3,
             this.gridColumn2,
             this.gridColumn4,
@@ -137,17 +137,18 @@
             this.gridColumn10});
       this.gridView.GridControl = this.gridControl;
       this.gridView.Name = "gridView";
+      this.gridView.OptionsView.NewItemRowPosition = DevExpress.XtraGrid.Views.Grid.NewItemRowPosition.Bottom;
       this.gridView.OptionsView.ShowGroupPanel = false;
       // 
-      // gridColumn1
+      // lastNameColumn
       // 
-      this.gridColumn1.Caption = "Last Name";
-      this.gridColumn1.FieldName = "LastName";
-      this.gridColumn1.Name = "gridColumn1";
-      this.gridColumn1.OptionsColumn.FixedWidth = true;
-      this.gridColumn1.Visible = true;
-      this.gridColumn1.VisibleIndex = 0;
-      this.gridColumn1.Width = 80;
+      this.lastNameColumn.Caption = "Last Name";
+      this.lastNameColumn.FieldName = "LastName";
+      this.lastNameColumn.Name = "lastNameColumn";
+      this.lastNameColumn.OptionsColumn.FixedWidth = true;
+      this.lastNameColumn.Visible = true;
+      this.lastNameColumn.VisibleIndex = 0;
+      this.lastNameColumn.Width = 80;
       // 
       // gridColumn3
       // 
@@ -323,7 +324,7 @@
     private DevExpress.XtraGrid.GridControl gridControl;
     private DevExpress.XtraGrid.Views.Grid.GridView gridView;
     private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit ageGroupLookUpEdit;
-    private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+    private DevExpress.XtraGrid.Columns.GridColumn lastNameColumn;
     private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
     private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
     private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit genderLookUpEdit;

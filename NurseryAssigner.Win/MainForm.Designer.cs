@@ -29,12 +29,14 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
       this.scrollPanel = new System.Windows.Forms.Panel();
       this.scheduleTable = new System.Windows.Forms.TableLayoutPanel();
       this.attendantMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.name1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.openToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.dateRangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.selectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.buildScheduleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +48,7 @@
       this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.attendantScheduleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.familySummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.attendantListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.label1 = new System.Windows.Forms.Label();
@@ -53,9 +56,7 @@
       this.endDateLabel = new System.Windows.Forms.Label();
       this.label4 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
-      this.attendantListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.distributionDisplay = new NurseryAssigner.Win.DistributionDisplay();
-      this.openToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.scrollPanel.SuspendLayout();
       this.attendantMenu.SuspendLayout();
       this.menuStrip1.SuspendLayout();
@@ -125,6 +126,13 @@
       this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
       this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
       this.fileToolStripMenuItem.Text = "File";
+      // 
+      // openToolStripMenuItem1
+      // 
+      this.openToolStripMenuItem1.Name = "openToolStripMenuItem1";
+      this.openToolStripMenuItem1.Size = new System.Drawing.Size(103, 22);
+      this.openToolStripMenuItem1.Text = "Open";
+      this.openToolStripMenuItem1.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
       // 
       // dateRangeToolStripMenuItem
       // 
@@ -212,6 +220,13 @@
       this.familySummaryToolStripMenuItem.Text = "Family Summary";
       this.familySummaryToolStripMenuItem.Click += new System.EventHandler(this.familySummaryToolStripMenuItem_Click);
       // 
+      // attendantListToolStripMenuItem
+      // 
+      this.attendantListToolStripMenuItem.Name = "attendantListToolStripMenuItem";
+      this.attendantListToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+      this.attendantListToolStripMenuItem.Text = "Attendant List";
+      this.attendantListToolStripMenuItem.Click += new System.EventHandler(this.attendantListToolStripMenuItem_Click);
+      // 
       // newToolStripMenuItem
       // 
       this.newToolStripMenuItem.Name = "newToolStripMenuItem";
@@ -271,13 +286,6 @@
       this.label2.TabIndex = 10;
       this.label2.Text = "Distribution";
       // 
-      // attendantListToolStripMenuItem
-      // 
-      this.attendantListToolStripMenuItem.Name = "attendantListToolStripMenuItem";
-      this.attendantListToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-      this.attendantListToolStripMenuItem.Text = "Attendant List";
-      this.attendantListToolStripMenuItem.Click += new System.EventHandler(this.attendantListToolStripMenuItem_Click);
-      // 
       // distributionDisplay
       // 
       this.distributionDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -286,13 +294,6 @@
       this.distributionDisplay.Name = "distributionDisplay";
       this.distributionDisplay.Size = new System.Drawing.Size(166, 276);
       this.distributionDisplay.TabIndex = 9;
-      // 
-      // openToolStripMenuItem1
-      // 
-      this.openToolStripMenuItem1.Name = "openToolStripMenuItem1";
-      this.openToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-      this.openToolStripMenuItem1.Text = "Open";
-      this.openToolStripMenuItem1.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
       // 
       // MainForm
       // 
@@ -307,6 +308,7 @@
       this.Controls.Add(this.label1);
       this.Controls.Add(this.menuStrip1);
       this.Controls.Add(this.scrollPanel);
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MainMenuStrip = this.menuStrip1;
       this.Name = "MainForm";
       this.Text = "Nursury Assigner";
