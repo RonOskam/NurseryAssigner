@@ -17,11 +17,11 @@ namespace NurseryAssigner.Data
         else if (Position == 2)
           return "Second Adult/HS";
         else if (Position == 3)
-          return "Adult/Middle School";
+          return "5th to 8th Grade";
         else if (Position == 4)
-          return "Middle School";
+          return "3rd/4th Grade";
         else
-          return "Elementary";
+          return "Other";
       }
     }
 

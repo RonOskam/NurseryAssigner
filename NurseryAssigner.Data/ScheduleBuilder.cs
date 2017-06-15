@@ -118,7 +118,10 @@ namespace NurseryAssigner.Data
         count++;
 
         if (count > 50)
-          throw new Exception("Could not find an attendant for slot.");
+        {
+          var group = _db.AgeGroups.Find(groupID).Name;
+          throw new Exception("Could not find an attendant from this group of people: " + group + ".  Either retry this process or add more people to this group.");
+        }
       }
       while (true);
     }

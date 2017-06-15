@@ -177,6 +177,7 @@
       this.genderLookUpEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
       this.genderLookUpEdit.Name = "genderLookUpEdit";
+      this.genderLookUpEdit.NullText = "";
       // 
       // gridColumn4
       // 
