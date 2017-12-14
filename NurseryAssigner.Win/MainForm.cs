@@ -35,8 +35,10 @@ namespace NurseryAssigner.Win
 
     private void DistributionDisplay_AttendantSelected(object sender, EventArgs e)
     {
-      if (distributionDisplay.SelectedAttendant.HasValue)
-        setCellColors(distributionDisplay.SelectedAttendant.Value);
+      if (distributionDisplay.SecondaryClicked)
+        setCellColors(distributionDisplay.SecondaryAttendant, true);
+      else if (!distributionDisplay.SecondaryClicked && distributionDisplay.PrimaryAttendant.HasValue)
+        setCellColors(distributionDisplay.PrimaryAttendant.Value, false);
     }
 
     private bool loadByRange()
@@ -78,7 +80,7 @@ namespace NurseryAssigner.Win
           row++;
           scheduleTable.RowCount++;
         }
-        setCellColors(null);
+        setCellColors(null, false);
         scheduleTable.ResumeLayout();
 
         distributionDisplay.DisplayCounts(startDate, endDate);
@@ -89,7 +91,7 @@ namespace NurseryAssigner.Win
 
     private void MainForm_Load(object sender, EventArgs e)
     {
-    
+
     }
 
     public static NurseryAssignerEntities DatabaseConnection()
@@ -185,7 +187,7 @@ namespace NurseryAssigner.Win
         source.Text = destination.Text;
         destination.Text = swap;
 
-        var destSched = (AttendantSchedule)destination.Tag;      
+        var destSched = (AttendantSchedule)destination.Tag;
         destination.BackColor = _selectedColor;
 
         var sourceSched = (AttendantSchedule)source.Tag;
@@ -196,7 +198,7 @@ namespace NurseryAssigner.Win
         _db.SaveChanges();
         distributionDisplay.UpdateDisplay();
 
-        setCellColors(destSched.AttendantID);
+        setCellColors(destSched.AttendantID, false);
       }
       else
         destination.BorderStyle = BorderStyle.None;
@@ -226,9 +228,9 @@ namespace NurseryAssigner.Win
       if (e.Button == MouseButtons.Left)
       {
         _selectedItem = label;
-        setCellColors(currentSched.AttendantID);
+        setCellColors(currentSched.AttendantID, false);
         label.BackColor = _selectedColor;
-        distributionDisplay.SelectAttendant(currentSched.AttendantID);
+        distributionDisplay.SelectAttendant(currentSched.AttendantID, false);
 
         label.DoDragDrop(label, DragDropEffects.Move);
       }
@@ -288,7 +290,7 @@ namespace NurseryAssigner.Win
       distributionDisplay.UpdateDisplay();
     }
 
-    private void setCellColors(long? selectedAttendantID)
+    private void setCellColors(long? selectedAttendantID, bool secondary)
     {
       foreach (var item in scheduleTable.Controls)
       {
@@ -300,12 +302,17 @@ namespace NurseryAssigner.Win
           var itemSched = (AttendantSchedule)label.Tag;
           if (!selectedAttendantID.HasValue || itemSched == null || itemSched.AttendantID != selectedAttendantID.Value)
           {
-            var row = scheduleTable.GetRow(label);
-            if (row % 2 == 0)   //alternate row colors
-              label.BackColor = Color.Transparent;
-            else
-              label.BackColor = Color.Gainsboro;
+            if (!((label.BackColor == Color.Pink && secondary) || (label.BackColor == Color.LightBlue && !secondary)))
+            {
+              var row = scheduleTable.GetRow(label);
+              if (row % 2 == 0)   //alternate row colors
+                label.BackColor = Color.Transparent;
+              else
+                label.BackColor = Color.Gainsboro;
+            }
           }
+          else if (secondary)
+            label.BackColor = Color.LightBlue;
           else
             label.BackColor = Color.Pink;
         }

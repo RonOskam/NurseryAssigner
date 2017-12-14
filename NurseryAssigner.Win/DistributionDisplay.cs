@@ -20,8 +20,11 @@ namespace NurseryAssigner.Win
 
     private DateTime _start;
     private DateTime _end;
-    private Label _selectedLabel = null;
-    private int? _selectedAttendant = null;
+    private Label _primaryLabel = null;
+    private int? _primaryAttendant = null;
+    private Label _secondaryLabel = null;
+    private int? _secondaryAttendant = null;
+    private bool _secondaryClicked = false;
 
     public event EventHandler AttendantSelected;
     
@@ -32,11 +35,27 @@ namespace NurseryAssigner.Win
       UpdateDisplay();
     }
 
-    public int? SelectedAttendant
+    public int? PrimaryAttendant
     {
       get
       {
-        return _selectedAttendant;
+        return _primaryAttendant;
+      }
+    }
+
+    public int? SecondaryAttendant
+    {
+      get
+      {
+        return _secondaryAttendant;
+      }
+    }
+
+    public bool SecondaryClicked
+    {
+      get
+      {
+        return _secondaryClicked;
       }
     }
 
@@ -81,7 +100,7 @@ namespace NurseryAssigner.Win
       distributionTable.ResumeLayout();
     }
 
-    public void SelectAttendant(long attendantID)
+    public void SelectAttendant(long attendantID, bool secondary)
     {
       foreach (var item in distributionTable.Controls)
       {
@@ -90,7 +109,7 @@ namespace NurseryAssigner.Win
           var label = (Label)item;
           if (label.Tag != null && ((long)label.Tag) == attendantID)
           {
-            highlightLabel(label);
+            highlightLabel(label, secondary);
             return;
           }
         }
@@ -111,26 +130,47 @@ namespace NurseryAssigner.Win
 
       if (attendant != null)
       {
-        label.Click += Label_Click;
+        label.MouseUp += Label_Click;
         label.Tag = attendant.ID;
       }
       distributionTable.Controls.Add(label, column, row);
     }
 
-    private void Label_Click(object sender, EventArgs e)
+    private void Label_Click(object sender, MouseEventArgs e)
     {
-      highlightLabel((Label)sender);
+      _secondaryClicked = (e.Button == MouseButtons.Right);
+      highlightLabel((Label)sender, _secondaryClicked);
 
       AttendantSelected?.Invoke(sender, EventArgs.Empty);
     }
 
-    private void highlightLabel(Label label)
+    private void highlightLabel(Label label, bool secondary)
     {
-      _selectedAttendant = Convert.ToInt32(label.Tag);
-      if (_selectedLabel != null)
-        _selectedLabel.BackColor = Color.Transparent;
-      label.BackColor = Color.LightGreen;
-      _selectedLabel = label;
+      if (!secondary)
+      {
+        _primaryAttendant = Convert.ToInt32(label.Tag);
+        if (_primaryLabel != null)
+          _primaryLabel.BackColor = Color.Transparent;
+        label.BackColor = Color.Pink;
+        _primaryLabel = label;
+      }
+      else
+      {
+        if (_secondaryAttendant.HasValue && _secondaryAttendant == Convert.ToInt32(label.Tag))
+        {
+          if (_secondaryLabel != null)
+            _secondaryLabel.BackColor = Color.Transparent;
+          _secondaryAttendant = null;
+        }
+        else
+        {
+          _secondaryAttendant = Convert.ToInt32(label.Tag);
+          if (_secondaryLabel != null)
+            _secondaryLabel.BackColor = Color.Transparent;
+          label.BackColor = Color.LightBlue;
+          _secondaryLabel = label;
+        }
+      }
     }
 
     private void scrollPanel_MouseEnter(object sender, EventArgs e)
