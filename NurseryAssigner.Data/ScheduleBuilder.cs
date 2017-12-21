@@ -142,6 +142,20 @@ namespace NurseryAssigner.Data
 
         if (attendant.Gender == "M" && attendant.AgeGroupID != 1 && _db.AttendantSchedules.Any(s => s.Service.Date == date && s.Service.AMPM == service && attendant.Gender == "M" && attendant.AgeGroupID != 1))
           return false;
+
+        if (attendant.AgeGroupID == 1 && _db.AdditionalServices.Any(s => s.Date == date && s.AMPM == service))
+        {
+          var yearAgo = _start.AddYears(-1);
+          var query = from srv in _db.AdditionalServices
+                      join sch in _db.AttendantSchedules
+                      on new { srv.Date, srv.AMPM }
+                                 equals
+                                 new { sch.Service.Date, sch.Service.AMPM }
+                      where sch.AttendantID == attendant.ID && sch.Service.Date >= yearAgo
+                      select srv;
+          if (query.Any())
+            return false;
+        }
       }
       return true;
     }
@@ -191,6 +205,6 @@ namespace NurseryAssigner.Data
         list[pos2] = swap;
       }
     }
-    
+
   }
 }

@@ -80,7 +80,7 @@ namespace NurseryAssigner.Win
 
         addLabel(group.Name, 0, row, null, font);
         row++;
-        foreach (var attendant in counts.OrderBy(a => a.Key.FirstName).ThenBy(a => a.Key.LastName).ToList())
+        foreach (var attendant in counts.OrderBy(a => a.Key.LastName).ThenBy(a => a.Key.FirstName).ToList())
         {
           var display = attendant.Key.FullName;
           if (!attendant.Key.DoesAM)
