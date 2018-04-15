@@ -43,7 +43,7 @@
       this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
       this.reportHeaderBand1 = new DevExpress.XtraReports.UI.ReportHeaderBand();
       this.xrPictureBox1 = new DevExpress.XtraReports.UI.XRPictureBox();
-      this.xrRichText1 = new DevExpress.XtraReports.UI.XRRichText();
+      this.footerMessageText = new DevExpress.XtraReports.UI.XRRichText();
       this.xrLabel4 = new DevExpress.XtraReports.UI.XRLabel();
       this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
       this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
@@ -58,7 +58,7 @@
       this.fieldAttendantID1 = new DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField();
       this.fieldAttendant1 = new DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField();
       ((System.ComponentModel.ISupportInitialize)(this.objectDataSource1)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.xrRichText1)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.footerMessageText)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
       // 
       // Detail
@@ -184,7 +184,7 @@
       // 
       this.reportHeaderBand1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrPictureBox1,
-            this.xrRichText1,
+            this.footerMessageText,
             this.xrLabel4,
             this.xrLabel3,
             this.xrLabel2,
@@ -194,6 +194,7 @@
       this.reportHeaderBand1.Dpi = 100F;
       this.reportHeaderBand1.HeightF = 405.2501F;
       this.reportHeaderBand1.Name = "reportHeaderBand1";
+      this.reportHeaderBand1.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.reportHeaderBand1_BeforePrint);
       // 
       // xrPictureBox1
       // 
@@ -204,15 +205,16 @@
       this.xrPictureBox1.SizeF = new System.Drawing.SizeF(747.1249F, 104.1667F);
       this.xrPictureBox1.Sizing = DevExpress.XtraPrinting.ImageSizeMode.ZoomImage;
       // 
-      // xrRichText1
+      // footerMessageText
       // 
-      this.xrRichText1.Dpi = 100F;
-      this.xrRichText1.Font = new System.Drawing.Font("Arial", 9F);
-      this.xrRichText1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 209.9584F);
-      this.xrRichText1.Name = "xrRichText1";
-      this.xrRichText1.SerializableRtfString = resources.GetString("xrRichText1.SerializableRtfString");
-      this.xrRichText1.SizeF = new System.Drawing.SizeF(727.0833F, 195.2917F);
-      this.xrRichText1.StylePriority.UseFont = false;
+      this.footerMessageText.CanShrink = true;
+      this.footerMessageText.Dpi = 100F;
+      this.footerMessageText.Font = new System.Drawing.Font("Arial", 9F);
+      this.footerMessageText.LocationFloat = new DevExpress.Utils.PointFloat(0F, 209.9584F);
+      this.footerMessageText.Name = "footerMessageText";
+      this.footerMessageText.SerializableRtfString = resources.GetString("footerMessageText.SerializableRtfString");
+      this.footerMessageText.SizeF = new System.Drawing.SizeF(727.0833F, 195.2917F);
+      this.footerMessageText.StylePriority.UseFont = false;
       // 
       // xrLabel4
       // 
@@ -372,7 +374,7 @@
             this.DataField});
       this.Version = "15.2";
       ((System.ComponentModel.ISupportInitialize)(this.objectDataSource1)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.xrRichText1)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.footerMessageText)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
     }
@@ -399,7 +401,7 @@
     private DevExpress.XtraReports.UI.XRLabel xrLabel3;
     private DevExpress.XtraReports.UI.XRLabel xrLabel2;
     private DevExpress.XtraReports.UI.XRLabel xrLabel1;
-    private DevExpress.XtraReports.UI.XRRichText xrRichText1;
+    private DevExpress.XtraReports.UI.XRRichText footerMessageText;
     private DevExpress.XtraReports.UI.XRLabel xrLabel4;
     private DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField fieldPostionName;
     private DevExpress.XtraReports.UI.PivotGrid.XRPivotGridField fieldServiceDate;

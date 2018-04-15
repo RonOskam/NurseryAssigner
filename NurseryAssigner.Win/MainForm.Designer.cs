@@ -57,6 +57,8 @@
       this.label4 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
       this.distributionDisplay = new NurseryAssigner.Win.DistributionDisplay();
+      this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+      this.attendantScheduleMessageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.scrollPanel.SuspendLayout();
       this.attendantMenu.SuspendLayout();
       this.menuStrip1.SuspendLayout();
@@ -201,7 +203,9 @@
       this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.attendantScheduleToolStripMenuItem,
             this.familySummaryToolStripMenuItem,
-            this.attendantListToolStripMenuItem});
+            this.attendantListToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.attendantScheduleMessageToolStripMenuItem});
       this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
       this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
       this.reportsToolStripMenuItem.Text = "Reports";
@@ -209,21 +213,21 @@
       // attendantScheduleToolStripMenuItem
       // 
       this.attendantScheduleToolStripMenuItem.Name = "attendantScheduleToolStripMenuItem";
-      this.attendantScheduleToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+      this.attendantScheduleToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
       this.attendantScheduleToolStripMenuItem.Text = "Attendant Schedule";
       this.attendantScheduleToolStripMenuItem.Click += new System.EventHandler(this.attendantScheduleToolStripMenuItem_Click);
       // 
       // familySummaryToolStripMenuItem
       // 
       this.familySummaryToolStripMenuItem.Name = "familySummaryToolStripMenuItem";
-      this.familySummaryToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+      this.familySummaryToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
       this.familySummaryToolStripMenuItem.Text = "Family Summary";
       this.familySummaryToolStripMenuItem.Click += new System.EventHandler(this.familySummaryToolStripMenuItem_Click);
       // 
       // attendantListToolStripMenuItem
       // 
       this.attendantListToolStripMenuItem.Name = "attendantListToolStripMenuItem";
-      this.attendantListToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+      this.attendantListToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
       this.attendantListToolStripMenuItem.Text = "Attendant List";
       this.attendantListToolStripMenuItem.Click += new System.EventHandler(this.attendantListToolStripMenuItem_Click);
       // 
@@ -295,6 +299,18 @@
       this.distributionDisplay.Size = new System.Drawing.Size(166, 276);
       this.distributionDisplay.TabIndex = 9;
       // 
+      // toolStripMenuItem1
+      // 
+      this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+      this.toolStripMenuItem1.Size = new System.Drawing.Size(224, 6);
+      // 
+      // attendantScheduleMessageToolStripMenuItem
+      // 
+      this.attendantScheduleMessageToolStripMenuItem.Name = "attendantScheduleMessageToolStripMenuItem";
+      this.attendantScheduleMessageToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+      this.attendantScheduleMessageToolStripMenuItem.Text = "Attendant Schedule Message";
+      this.attendantScheduleMessageToolStripMenuItem.Click += new System.EventHandler(this.attendantScheduleMessageToolStripMenuItem_Click);
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -353,6 +369,8 @@
     private System.Windows.Forms.ToolStripMenuItem familySummaryToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem attendantListToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem1;
+    private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+    private System.Windows.Forms.ToolStripMenuItem attendantScheduleMessageToolStripMenuItem;
   }
 }
 

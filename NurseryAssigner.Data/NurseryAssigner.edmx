@@ -51,10 +51,17 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ServiceID" Type="integer" Nullable="false" />
           <Property Name="AttendantID" Type="integer" Nullable="false" />
           <Property Name="Position" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="integer" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -88,36 +95,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AttendantSchedule_0_0">
-          <End Role="Attendant" Type="Self.Attendant" Multiplicity="1" />
-          <End Role="AttendantSchedule" Type="Self.AttendantSchedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Attendant">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="AttendantSchedule">
-              <PropertyRef Name="AttendantID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AttendantSchedule_1_0">
-          <End Role="Service" Type="Self.Service" Multiplicity="1" />
-          <End Role="AttendantSchedule" Type="Self.AttendantSchedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Service">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="AttendantSchedule">
-              <PropertyRef Name="ServiceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="NurseryAssignerModelStoreContainer">
           <EntitySet Name="AdditionalService" EntityType="Self.AdditionalService" store:Type="Tables" />
           <EntitySet Name="AgeGroup" EntityType="Self.AgeGroup" store:Type="Tables" />
           <EntitySet Name="AssignmentCount" EntityType="Self.AssignmentCount" store:Type="Tables" />
           <EntitySet Name="Attendant" EntityType="Self.Attendant" store:Type="Tables" />
           <EntitySet Name="AttendantSchedule" EntityType="Self.AttendantSchedule" store:Type="Tables" />
+          <EntitySet Name="Parameter" EntityType="Self.Parameter" store:Type="Tables" />
           <EntitySet Name="Service" EntityType="Self.Service" store:Type="Tables" />
           <AssociationSet Name="FK_AssignmentCount_0_0" Association="Self.FK_AssignmentCount_0_0">
             <End Role="AgeGroup" EntitySet="AgeGroup" />
@@ -126,14 +110,6 @@
           <AssociationSet Name="FK_Attendant_0_0" Association="Self.FK_Attendant_0_0">
             <End Role="AgeGroup" EntitySet="AgeGroup" />
             <End Role="Attendant" EntitySet="Attendant" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AttendantSchedule_0_0" Association="Self.FK_AttendantSchedule_0_0">
-            <End Role="Attendant" EntitySet="Attendant" />
-            <End Role="AttendantSchedule" EntitySet="AttendantSchedule" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AttendantSchedule_1_0" Association="Self.FK_AttendantSchedule_1_0">
-            <End Role="Service" EntitySet="Service" />
-            <End Role="AttendantSchedule" EntitySet="AttendantSchedule" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -203,6 +179,7 @@
             <End Role="Service" EntitySet="Services" />
             <End Role="AttendantSchedule" EntitySet="AttendantSchedules" />
           </AssociationSet>
+          <EntitySet Name="Parameters" EntityType="NurseryAssignerModel.Parameter" />
         </EntityContainer>
         <EntityType Name="AdditionalService">
           <Key>
@@ -279,6 +256,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -346,6 +330,14 @@
               <MappingFragment StoreEntitySet="Service">
                 <ScalarProperty Name="AMPM" ColumnName="AMPM" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parameters">
+            <EntityTypeMapping TypeName="NurseryAssignerModel.Parameter">
+              <MappingFragment StoreEntitySet="Parameter">
+                <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

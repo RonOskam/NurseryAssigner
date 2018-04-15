@@ -469,6 +469,11 @@ namespace NurseryAssigner.Win
         return false;
     }
 
+    private void attendantScheduleMessageToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      var dialog = new ReportMessageDialog();
+      dialog.ShowDialog();
+    }
   }
 
 }

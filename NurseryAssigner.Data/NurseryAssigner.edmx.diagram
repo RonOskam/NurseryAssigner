@@ -15,6 +15,7 @@
         <AssociationConnector Association="NurseryAssignerModel.FK_AssignmentCount_0_0" />
         <AssociationConnector Association="NurseryAssignerModel.FK_AttendantSchedule_0_0" />
         <AssociationConnector Association="NurseryAssignerModel.FK_AttendantSchedule_1_0" />
+        <EntityTypeShape EntityType="NurseryAssignerModel.Parameter" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

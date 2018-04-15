@@ -21,5 +21,11 @@ namespace NurseryAssigner.Win
         e.Appearance.BackColor = Color.LightGray;
     }
 
+    private void reportHeaderBand1_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+    {
+      var db = MainForm.DatabaseConnection();
+      var message = db.Parameters.Find(1).Value;
+      footerMessageText.Text = message;
+    }
   }
 }

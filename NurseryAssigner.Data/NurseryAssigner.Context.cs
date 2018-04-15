@@ -42,6 +42,8 @@ namespace NurseryAssigner.Data
     public virtual DbSet<AdditionalService> AdditionalServices { get; set; }
     public virtual DbSet<AssignmentCount> AssignmentCounts { get; set; }
     public virtual DbSet<AttendantSchedule> AttendantSchedules { get; set; }
+    public virtual DbSet<Parameter> Parameters { get; set; }
     public virtual DbSet<Service> Services { get; set; }
+
   }
 }
