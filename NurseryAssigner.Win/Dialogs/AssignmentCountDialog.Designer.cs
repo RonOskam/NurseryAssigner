@@ -169,6 +169,7 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(372, 261);
+      this.ControlBox = false;
       this.Controls.Add(this.gridControl);
       this.Controls.Add(this.deleteButton);
       this.Controls.Add(this.addButton);
@@ -177,6 +178,9 @@
       this.MaximizeBox = false;
       this.MinimizeBox = false;
       this.Name = "AssignmentCountDialog";
+      this.ShowIcon = false;
+      this.ShowInTaskbar = false;
+      this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Text = "Assignment Count";
       this.Load += new System.EventHandler(this.AssignmentCountDialog_Load);
       ((System.ComponentModel.ISupportInitialize)(this.gridControl)).EndInit();

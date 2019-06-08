@@ -88,7 +88,7 @@
       this.okButton.Name = "okButton";
       this.okButton.Size = new System.Drawing.Size(60, 23);
       this.okButton.TabIndex = 12;
-      this.okButton.Text = "OK";
+      this.okButton.Text = "Save";
       this.okButton.UseVisualStyleBackColor = true;
       this.okButton.Click += new System.EventHandler(this.okButton_Click);
       // 
@@ -254,6 +254,9 @@
       this.repositoryItemDateEdit1.AutoHeight = false;
       this.repositoryItemDateEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+      // 
+      // 
+      // 
       this.repositoryItemDateEdit1.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
       this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
@@ -294,6 +297,7 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(828, 317);
+      this.ControlBox = false;
       this.Controls.Add(this.gridControl);
       this.Controls.Add(this.deleteButton);
       this.Controls.Add(this.addButton);
@@ -302,6 +306,8 @@
       this.MaximizeBox = false;
       this.MinimizeBox = false;
       this.Name = "AttendantDialog";
+      this.ShowIcon = false;
+      this.ShowInTaskbar = false;
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Text = "Attendants";
       this.Load += new System.EventHandler(this.AttendantDialog_Load);

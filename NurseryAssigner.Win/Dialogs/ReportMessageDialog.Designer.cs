@@ -41,7 +41,7 @@
       this.okButton.Name = "okButton";
       this.okButton.Size = new System.Drawing.Size(60, 23);
       this.okButton.TabIndex = 14;
-      this.okButton.Text = "OK";
+      this.okButton.Text = "Save";
       this.okButton.UseVisualStyleBackColor = true;
       this.okButton.Click += new System.EventHandler(this.okButton_Click);
       // 
@@ -74,12 +74,15 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(355, 227);
+      this.ControlBox = false;
       this.Controls.Add(this.messageTextBox);
       this.Controls.Add(this.okButton);
       this.Controls.Add(this.button1);
       this.MaximizeBox = false;
       this.MinimizeBox = false;
       this.Name = "ReportMessageDialog";
+      this.ShowIcon = false;
+      this.ShowInTaskbar = false;
       this.Text = "Attendant Schedule Message";
       this.Load += new System.EventHandler(this.ReportMessageDialog_Load);
       this.ResumeLayout(false);

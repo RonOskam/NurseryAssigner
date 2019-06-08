@@ -62,7 +62,7 @@
       this.okButton.Name = "okButton";
       this.okButton.Size = new System.Drawing.Size(60, 23);
       this.okButton.TabIndex = 2;
-      this.okButton.Text = "OK";
+      this.okButton.Text = "Save";
       this.okButton.UseVisualStyleBackColor = true;
       this.okButton.Click += new System.EventHandler(this.okButton_Click);
       // 
@@ -147,6 +147,7 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(284, 261);
+      this.ControlBox = false;
       this.Controls.Add(this.gridControl);
       this.Controls.Add(this.deleteButton);
       this.Controls.Add(this.addButton);
@@ -156,6 +157,8 @@
       this.MaximizeBox = false;
       this.MinimizeBox = false;
       this.Name = "AgeGroupDialog";
+      this.ShowIcon = false;
+      this.ShowInTaskbar = false;
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Text = "Age Groups";
       ((System.ComponentModel.ISupportInitialize)(this.gridControl)).EndInit();
