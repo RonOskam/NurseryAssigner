@@ -195,6 +195,19 @@ namespace NurseryAssigner.Win
       scheduleTable.Controls.Add(label, column, row);
     }
 
+
+    private string ValidateAttendantWithService(Attendant attendant, Service service)
+    {
+      if (service.AMPM == "AM" && !attendant.DoesAM)
+        return $"{ attendant.FullName } does not do AM services.";
+      else if (service.AMPM == "PM" && !attendant.DoesPM)
+        return $"{ attendant.FullName } does not do PM services.";
+      else if (attendant.ExclusionEnd.HasValue && attendant.ExclusionStart.HasValue && service.Date >= attendant.ExclusionStart.Value && service.Date <= attendant.ExclusionEnd.Value)
+        return $"{ attendant.FullName } does not do services between { attendant.ExclusionStart.Value.ToShortDateString() } and { attendant.ExclusionEnd.Value.ToShortDateString() }";
+      else
+        return null;
+    }
+
     private void Label_DragDrop(object sender, DragEventArgs e)
     {
       var source = (Label)e.Data.GetData(typeof(Label));
@@ -202,21 +215,9 @@ namespace NurseryAssigner.Win
       var destSched = (AttendantSchedule)destination.Tag;
       var sourceSched = (AttendantSchedule)source.Tag;
 
-      string error = null;
-      if (destSched.Service.AMPM == "AM" && !sourceSched.Attendant.DoesAM)
-        error = $"{ sourceSched.Attendant.FullName } does not do AM services.";
-      else if (destSched.Service.AMPM == "PM" && !sourceSched.Attendant.DoesPM)
-        error = $"{ sourceSched.Attendant.FullName } does not do PM services.";
-      else if (sourceSched.Service.AMPM == "AM" && !destSched.Attendant.DoesAM)
-        error = $"{ destSched.Attendant.FullName } does not do AM services.";
-      else if (sourceSched.Service.AMPM == "PM" && !destSched.Attendant.DoesPM)
-        error = $"{ destSched.Attendant.FullName } does not do PM services.";
-      else if (sourceSched.Attendant.ExclusionEnd.HasValue && sourceSched.Attendant.ExclusionStart.HasValue && destSched.Service.Date >= sourceSched.Attendant.ExclusionStart.Value
-         && destSched.Service.Date <= sourceSched.Attendant.ExclusionEnd.Value)
-        error = $"{ sourceSched.Attendant.FullName } does not do services between { sourceSched.Attendant.ExclusionStart.Value.ToShortDateString() } and { sourceSched.Attendant.ExclusionEnd.Value.ToShortDateString() }";
-      else if (destSched.Attendant.ExclusionEnd.HasValue && destSched.Attendant.ExclusionStart.HasValue && sourceSched.Service.Date >= destSched.Attendant.ExclusionStart.Value
-         && sourceSched.Service.Date <= destSched.Attendant.ExclusionEnd.Value)
-        error = $"{ destSched.Attendant.FullName } does not do services between { destSched.Attendant.ExclusionStart.Value.ToShortDateString() } and { destSched.Attendant.ExclusionEnd.Value.ToShortDateString() }";
+      string error = ValidateAttendantWithService(destSched.Attendant, sourceSched.Service);
+      if (error == null)
+        error = ValidateAttendantWithService(sourceSched.Attendant, destSched.Service);
 
       if (error != null)
         MessageBox.Show(error, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -327,13 +328,19 @@ namespace NurseryAssigner.Win
     {
       var destination = (Attendant)(((ToolStripMenuItem)sender).Tag);
       var source = (AttendantSchedule)_selectedItem.Tag;
+      var error = ValidateAttendantWithService(destination, source.Service);
 
-      _selectedItem.Text = destination.FullName;
-      source.Attendant = destination;
-      source.AttendantID = destination.ID;
+      if (error != null)
+        MessageBox.Show(error, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+      else
+      {
+        _selectedItem.Text = destination.FullName;
+        source.Attendant = destination;
+        source.AttendantID = destination.ID;
 
-      _db.SaveChanges();
-      distributionDisplay.UpdateDisplay();
+        _db.SaveChanges();
+        distributionDisplay.UpdateDisplay();
+      }
     }
 
     private void setCellColors(long? selectedAttendantID, bool secondary)

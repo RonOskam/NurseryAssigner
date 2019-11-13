@@ -74,21 +74,18 @@ namespace NurseryAssigner.Win
       var groups = db.AgeGroups.ToList();
       foreach (var group in groups)
       {
-        var counts = db.AttendantSchedules.Where(s => s.Service.Date >= _start && s.Service.Date <= _end && s.Attendant.AgeGroupID == group.ID)
-          .GroupBy(s => s.Attendant)
-          .Select(s => new { s.Key, Count = s.Count() }).ToList();
-
         addLabel(group.Name, 0, row, null, font);
         row++;
-        foreach (var attendant in counts.OrderBy(a => a.Key.LastName).ThenBy(a => a.Key.FirstName).ToList())
+        foreach (var attendant in group.Attendants.Where(a => !a.IsInactive).OrderBy(a => a.LastName).ThenBy(a => a.FirstName).ToList())
         {
-          var display = attendant.Key.FullName;
-          if (!attendant.Key.DoesAM)
+          var count = db.AttendantSchedules.Count(s => s.Service.Date >= _start && s.Service.Date <= _end && s.AttendantID == attendant.ID);
+          var display = attendant.FullName;
+          if (!attendant.DoesAM)
             display += " (P)";
-          else if (!attendant.Key.DoesPM)
+          else if (!attendant.DoesPM)
             display += " (A)";
-          addLabel(display, 0, row, attendant.Key);
-          addLabel(attendant.Count.ToString(), 1, row);
+          addLabel(display, 0, row, attendant);
+          addLabel(count.ToString(), 1, row);
           var newRowStyle = new RowStyle(SizeType.Absolute, 18);
           distributionTable.RowStyles.Add(newRowStyle);
           row++;
