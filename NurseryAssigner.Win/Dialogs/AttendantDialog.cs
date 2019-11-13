@@ -70,5 +70,16 @@ namespace NurseryAssigner.Win
     {
       gridView.DeleteSelectedRows();
     }
+
+    private void gridView_ValidateRow(object sender, DevExpress.XtraGrid.Views.Base.ValidateRowEventArgs e)
+    {
+      var attendant = (Attendant)e.Row;
+      if (!attendant.DoesAM && ! attendant.DoesPM)
+      {
+        e.Valid = false;
+        e.ErrorText = "The attendant cannot do neither AM and PM.";
+      }
+    }
+
   }
 }

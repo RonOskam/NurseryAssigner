@@ -139,6 +139,7 @@
       this.gridView.Name = "gridView";
       this.gridView.OptionsView.NewItemRowPosition = DevExpress.XtraGrid.Views.Grid.NewItemRowPosition.Bottom;
       this.gridView.OptionsView.ShowGroupPanel = false;
+      this.gridView.ValidateRow += new DevExpress.XtraGrid.Views.Base.ValidateRowEventHandler(this.gridView_ValidateRow);
       // 
       // lastNameColumn
       // 

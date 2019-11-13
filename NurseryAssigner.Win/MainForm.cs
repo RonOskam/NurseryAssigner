@@ -168,7 +168,7 @@ namespace NurseryAssigner.Win
       label.Text = text;
       label.Dock = DockStyle.Fill;
       label.Margin = new Padding(0);
-      label.TextAlign = ContentAlignment.MiddleLeft;     
+      label.TextAlign = ContentAlignment.MiddleLeft;
       if (font != null)
         label.Font = font;
       if (color.HasValue)
@@ -199,29 +199,55 @@ namespace NurseryAssigner.Win
     {
       var source = (Label)e.Data.GetData(typeof(Label));
       var destination = (Label)sender;
+      var destSched = (AttendantSchedule)destination.Tag;
+      var sourceSched = (AttendantSchedule)source.Tag;
 
-      if (source.Text != destination.Text
-        && MessageBox.Show("Are you sure you want to swap " + source.Text + " and " + destination.Text + "?", Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
+      string error = null;
+      if (destSched.Service.AMPM == "AM" && !sourceSched.Attendant.DoesAM)
+        error = $"{ sourceSched.Attendant.FullName } does not do AM services.";
+      else if (destSched.Service.AMPM == "PM" && !sourceSched.Attendant.DoesPM)
+        error = $"{ sourceSched.Attendant.FullName } does not do PM services.";
+      else if (sourceSched.Service.AMPM == "AM" && !destSched.Attendant.DoesAM)
+        error = $"{ destSched.Attendant.FullName } does not do AM services.";
+      else if (sourceSched.Service.AMPM == "PM" && !destSched.Attendant.DoesPM)
+        error = $"{ destSched.Attendant.FullName } does not do PM services.";
+      else if (sourceSched.Attendant.ExclusionEnd.HasValue && sourceSched.Attendant.ExclusionStart.HasValue && destSched.Service.Date >= sourceSched.Attendant.ExclusionStart.Value
+         && destSched.Service.Date <= sourceSched.Attendant.ExclusionEnd.Value)
+        error = $"{ sourceSched.Attendant.FullName } does not do services between { sourceSched.Attendant.ExclusionStart.Value.ToShortDateString() } and { sourceSched.Attendant.ExclusionEnd.Value.ToShortDateString() }";
+      else if (destSched.Attendant.ExclusionEnd.HasValue && destSched.Attendant.ExclusionStart.HasValue && sourceSched.Service.Date >= destSched.Attendant.ExclusionStart.Value
+         && sourceSched.Service.Date <= destSched.Attendant.ExclusionEnd.Value)
+        error = $"{ destSched.Attendant.FullName } does not do services between { destSched.Attendant.ExclusionStart.Value.ToShortDateString() } and { destSched.Attendant.ExclusionEnd.Value.ToShortDateString() }";
+
+      if (error != null)
+        MessageBox.Show(error, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+      else if (source.Text != destination.Text)
       {
-        var swap = source.Text;
-        source.Text = destination.Text;
-        destination.Text = swap;
+        var message = $"Are you sure you want to swap { source.Text } and { destination.Text }?";
+        if (!string.IsNullOrEmpty(destSched.Attendant.Comment))
+          message += $"\r\n\r\nComment for { destSched.Attendant.FullName }: { destSched.Attendant.Comment }";
+        if (!string.IsNullOrEmpty(sourceSched.Attendant.Comment))
+          message += $"\r\n\r\nComment for { sourceSched.Attendant.FullName }: { sourceSched.Attendant.Comment }";
 
-        var destSched = (AttendantSchedule)destination.Tag;
-        destination.BackColor = _selectedColor;
+        if (MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
+        {
+          var swap = source.Text;
+          source.Text = destination.Text;
+          destination.Text = swap;
 
-        var sourceSched = (AttendantSchedule)source.Tag;
-        var swapAttendant = destSched.Attendant;
-        destSched.Attendant = sourceSched.Attendant;
-        sourceSched.Attendant = swapAttendant;
+          destination.BackColor = _selectedColor;
 
-        _db.SaveChanges();
-        distributionDisplay.UpdateDisplay();
+          var swapAttendant = destSched.Attendant;
+          destSched.Attendant = sourceSched.Attendant;
+          sourceSched.Attendant = swapAttendant;
 
-        setCellColors(destSched.AttendantID, false);
+          _db.SaveChanges();
+          distributionDisplay.UpdateDisplay();
+
+          setCellColors(destSched.AttendantID, false);
+          return;
+        }
       }
-      else
-        destination.BorderStyle = BorderStyle.None;
+      destination.BorderStyle = BorderStyle.None;
     }
 
     private void Label_DragEnter(object sender, DragEventArgs e)
@@ -375,7 +401,7 @@ namespace NurseryAssigner.Win
         if (!loadByRange(startDate, endDate))
         {
           if (MessageBox.Show("There is nothing scheduled for this range, do you want create a schedule for it?", Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.Yes)
-          {          
+          {
             var builder = new ScheduleBuilder(_db, startDate, endDate);
             builder.BuildSchedule();
             loadByRange(startDate, endDate);
