@@ -137,7 +137,7 @@ namespace NurseryAssigner.Data
       else
       {
         var lastService = _db.AttendantSchedules.Where(a => a.AttendantID == attendant.ID).OrderByDescending(a => a.Service.Date).Select(a => a.Service).FirstOrDefault();
-        if (lastService != null && (date - lastService.Date).Days <= 14)
+        if (lastService != null && (date - lastService.Date).Days <= 21)
           return false;
 
         if (attendant.Gender == "M" && attendant.AgeGroupID != 1 && _db.AttendantSchedules.Any(s => s.Service.Date == date && s.Service.AMPM == service && attendant.Gender == "M" && attendant.AgeGroupID != 1))
