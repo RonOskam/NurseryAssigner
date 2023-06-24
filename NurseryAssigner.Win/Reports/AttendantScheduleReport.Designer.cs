@@ -73,7 +73,7 @@
       // schedulePivotGrid
       // 
       this.schedulePivotGrid.Appearance.Cell.Font = new System.Drawing.Font("Tahoma", 8.25F);
-      this.schedulePivotGrid.Appearance.CustomTotalCell.Font = new System.Drawing.Font("Tahoma", 8.25F);
+      this.schedulePivotGrid.Appearance.CustomTotalCell.Font = new System.Drawing.Font("Tahoma", 8.25F);     
       this.schedulePivotGrid.Appearance.FieldHeader.BackColor = System.Drawing.Color.Gainsboro;
       this.schedulePivotGrid.Appearance.FieldHeader.Font = new System.Drawing.Font("Tahoma", 8.25F);
       this.schedulePivotGrid.Appearance.FieldValue.Font = new System.Drawing.Font("Tahoma", 8.25F);
@@ -99,6 +99,7 @@
       this.schedulePivotGrid.OptionsView.ShowColumnGrandTotalHeader = false;
       this.schedulePivotGrid.OptionsView.ShowColumnGrandTotals = false;
       this.schedulePivotGrid.OptionsView.ShowColumnTotals = false;
+      this.schedulePivotGrid.OptionsView.ShowColumnHeaders = false;
       this.schedulePivotGrid.OptionsView.ShowDataHeaders = false;
       this.schedulePivotGrid.OptionsView.ShowFilterHeaders = false;
       this.schedulePivotGrid.OptionsView.ShowRowHeaders = false;
@@ -118,13 +119,14 @@
       this.fieldPostionName.AreaIndex = 0;
       this.fieldPostionName.FieldName = "PostionName";
       this.fieldPostionName.Name = "fieldPostionName";
-      this.fieldPostionName.Options.AllowSort = DevExpress.Utils.DefaultBoolean.True;
+      this.fieldPostionName.Options.AllowSort = DevExpress.Utils.DefaultBoolean.True;    
       this.fieldPostionName.SortByAttribute = "Position";
       this.fieldPostionName.SortBySummaryInfo.FieldName = "Position";
       this.fieldPostionName.SortBySummaryInfo.SummaryType = DevExpress.Data.PivotGrid.PivotSummaryType.Min;
       this.fieldPostionName.SortMode = DevExpress.XtraPivotGrid.PivotSortMode.DimensionAttribute;
       this.fieldPostionName.TotalsVisibility = DevExpress.XtraPivotGrid.PivotTotalsVisibility.None;
       this.fieldPostionName.Width = 123;
+      
       // 
       // fieldServiceDate
       // 

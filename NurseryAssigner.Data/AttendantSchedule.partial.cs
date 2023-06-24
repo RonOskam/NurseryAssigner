@@ -12,14 +12,15 @@ namespace NurseryAssigner.Data
     {
       get
       {
-        if (Position == 1)
-          return "Adult";
-        else if (Position == 2)
-          return "Older Kid";
-        else if (Position == 3)
-          return "Younger Kid";        
-        else
-          return "Other";
+        return $"{Attendant.AgeGroup.Name}{(Position == 2 ? " " : "")}";
+        //if (Position == 1)
+        //  return "Adult";
+        //else if (Position == 2)
+        //  return "Older Kid";
+        //else if (Position == 3)
+        //  return "Younger Kid";
+        //else
+        //  return "Other";
       }
     }
 
